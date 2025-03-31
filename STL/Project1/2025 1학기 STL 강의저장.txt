@@ -1015,3 +1015,150 @@ int main()
 
 	save("메인.cpp");
 }
+
+==========================================
+저장한 시간: 2025-03-31 오후 6:51:51 월요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 3월 31일 월요일				(4주 2일)
+//-----------------------------------------------------------
+// Callable types - 호출가능한 타입
+// 1. 함수
+//-----------------------------------------------------------
+
+#include <iostream>
+#include <random>
+#include <array>
+#include <print>
+#include <ranges>
+#include "save.h"
+
+// [문제] 값의 범위가 [0,1000'0000) 까지인 랜덤 int값 1000만개를 저장할 메모리를 확보하고 값을 채워라
+// (시작) qsort로 오름차순 정렬하라
+// 정렬한 결과 중에서 앞에서부터 1000개만 화면에 출력하라
+
+std::mt19937_64 dre(std::random_device{}());
+std::uniform_int_distribution<int> uid(0, 1000'0000 - 1);
+
+std::array<int, 1000'0000> randomNumber;
+
+int 오름차순(const void* a, const void * b) {
+	return *(int*)a - *(int*)b;
+}
+
+int 내림차순(const void* a, const void* b) {
+	return *(int*)b - *(int*)a;
+}
+
+int main()
+{
+	for (int& num : randomNumber) {
+		num = uid(dre);
+	}
+
+	// qsort로 정렬
+	
+	int (*정렬방법)(const void*, const void*);
+
+	정렬방법 = 오름차순;
+	//정렬방법 = 내림차순;
+
+	std::qsort(randomNumber.data(), randomNumber.size(), sizeof(int), 정렬방법);
+
+	for ( int num : randomNumber | std::views::take(1000)) {
+		std::print("{:8}", num);
+	}
+
+	save("메인.cpp");
+}
+
+==========================================
+저장한 시간: 2025-03-31 오후 7:01:10 월요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 3월 31일 월요일				(4주 2일)
+//-----------------------------------------------------------
+// Callable types - 호출가능한 타입
+// 1. 함수
+//-----------------------------------------------------------
+
+#include <iostream>
+#include <random>
+#include <array>
+#include <print>
+#include <ranges>
+#include <algorithm>
+#include "save.h"
+
+std::mt19937_64 dre(std::random_device{}());
+std::uniform_int_distribution<int> uid(0, 1000'0000 - 1);
+
+std::array<int, 1000'0000> randomNumber;
+
+int main()
+{
+	for (int& num : randomNumber) {
+		num = uid(dre);
+	}
+
+	// STL의 sort로 정렬
+	std::sort(randomNumber.begin(), randomNumber.end());
+
+	for ( int num : randomNumber | std::views::take(1000)) {
+		std::print("{:8}", num);
+	}
+
+	save("메인.cpp");
+}
+
+==========================================
+저장한 시간: 2025-03-31 오후 7:05:20 월요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 3월 31일 월요일				(4주 2일)
+//-----------------------------------------------------------
+// Callable types - 호출가능한 타입
+// 1. 함수
+//-----------------------------------------------------------
+
+#include <iostream>
+#include <random>
+#include <array>
+#include <print>
+#include <ranges>
+#include <algorithm>
+#include <chrono>
+#include "save.h"
+
+std::mt19937_64 dre(std::random_device{}());
+std::uniform_int_distribution<int> uid(0, 1000'0000 - 1);
+
+std::array<int, 1000'0000> randomNumber;
+
+int main()
+{
+	for (int& num : randomNumber) {
+		num = uid(dre);
+	}
+
+	// STL의 sort로 내림차순 정렬
+	// 정렬에 걸리는 시간
+	// 스톱워치 시작
+	auto b = std::chrono::high_resolution_clock::now();
+	std::sort(randomNumber.begin(), randomNumber.end(), [] (int a, int b) {
+		return a > b;
+		});
+	auto e = std::chrono::high_resolution_clock::now();
+	// 스톱워치 끝
+
+	for ( int num : randomNumber | std::views::take(1000)) {
+		std::print("{:8}", num);
+	}
+
+	std::cout << std::endl << "정렬에 걸린 시간 : " << e - b << std::endl;
+
+	save("메인.cpp");
+}

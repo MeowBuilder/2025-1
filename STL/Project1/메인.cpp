@@ -10,26 +10,14 @@
 #include <array>
 #include <print>
 #include <ranges>
+#include <algorithm>
+#include <chrono>
 #include "save.h"
 
-// [문제] 값의 범위가 [0,1000'0000) 까지인 랜덤 int값 1000만개를 저장할 메모리를 확보하고 값을 채워라
-// (시작) qsort로 오름차순 정렬하라
-// 정렬한 결과 중에서 앞에서부터 1000개만 화면에 출력하라
-
-
-std::random_device rd;
-std::mt19937_64 dre(rd());
+std::mt19937_64 dre(std::random_device{}());
 std::uniform_int_distribution<int> uid(0, 1000'0000 - 1);
 
 std::array<int, 1000'0000> randomNumber;
-
-int 오름차순(const void* a, const void * b) {
-	return *(int*)a - *(int*)b;
-}
-
-int 내림차순(const void* a, const void* b) {
-	return *(int*)b - *(int*)a;
-}
 
 int main()
 {
@@ -37,14 +25,21 @@ int main()
 		num = uid(dre);
 	}
 
-	// qsort로 정렬
-	//정렬방법 = 오름차순;
-	//정렬방법 = 내림차순;
-	std::qsort(randomNumber.data(), randomNumber.size(), sizeof(int), 오름차순);
+	// STL의 sort로 내림차순 정렬
+	// 정렬에 걸리는 시간
+	// 스톱워치 시작
+	auto b = std::chrono::high_resolution_clock::now();
+	std::sort(randomNumber.begin(), randomNumber.end(), [] (int a, int b) {
+		return a > b;
+		});
+	auto e = std::chrono::high_resolution_clock::now();
+	// 스톱워치 끝
 
 	for ( int num : randomNumber | std::views::take(1000)) {
 		std::print("{:8}", num);
 	}
+
+	std::cout << std::endl << "정렬에 걸린 시간 : " << e - b << std::endl;
 
 	//save("메인.cpp");
 }
