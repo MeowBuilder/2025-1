@@ -1,0 +1,1017 @@
+
+==========================================
+저장한 시간: 2025-03-10 오후 7:03:39 월요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 3월 10일 월요일				(1주 2일)
+//-----------------------------------------------------------
+// 한학기 강의 자료를 저장할 save기능
+//-----------------------------------------------------------
+
+#include <iostream>
+#include <string>
+#include <fstream>
+#include <algorithm>
+#include <filesystem>
+#include <chrono>
+
+void save( std::string_view );
+
+//-----------------------------------------------------------
+int main()
+//-----------------------------------------------------------
+{
+	std::cout << "2025년 1학기 STL" << std::endl;
+
+	save("메인.cpp");
+}
+
+//-----------------------------------------------------------
+void save( std::string_view filename )
+//-----------------------------------------------------------
+{
+	// 1.인자로 전달된 파일을 읽기 모드로 연다.
+	std::ifstream in{ filename.data()}; // RAII
+
+	if ( not in )
+	{
+		std::cout << filename << "을 열 수 없습니다." << std::endl;
+		exit( 20250310 );
+	}
+
+	// 저장했다는 것을 화면에 표시
+	std::cout << filename << "(" << std::filesystem::file_size(filename) << " bytes) 저장하였습니다." << std::endl;
+
+	// 2.쓰기모드로 저장할 파일을 (덧붙이기 모드로) 연다
+	std::ofstream out{ "2025 1학기 STL 강의저장.txt", std::ios::app }; // { } <- uniform initializer
+
+	
+
+	// 시간 기록
+	auto now = std::chrono::system_clock::now(); // epoch로 부터 경과된 tick 수를 얻는다.
+	auto utc = std::chrono::system_clock::to_time_t(now); // UTC
+	auto lt = std::localtime(&utc); // 지역시간(한국)으로 변경
+
+	auto old = out.imbue(std::locale("Ko-KR")); // 스트림의 지역을 변경
+
+	out << "\n" << "\n";
+	out << "======================================================================" << "\n";
+	out << "저장한 시간: " << std::put_time(lt, "%c %A") << "\n";
+	out << "======================================================================" << "\n";
+	out << "\n";
+
+	out.imbue(old); // 변경 이전으로 복원
+
+	// 3.파일을 읽어서 저장할 파일에 덧붙인다.
+	std::copy(std::istreambuf_iterator{ in }, {}, std::ostreambuf_iterator{ out });
+}
+
+==========================================
+저장한 시간: 2025-03-13 오후 5:38:06 목요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 3월 13일 목요일				(2주 1일)
+//-----------------------------------------------------------
+// save기능을 파일로 분리한다.
+//-----------------------------------------------------------
+
+#include <iostream>
+#include "save.h"
+
+int main()
+{
+	std::cout << "2025년 1학기 STL" << std::endl;
+
+	save("메인.cpp");
+	save("save.h");
+	save("save.cpp");
+}
+
+==========================================
+저장한 시간: 2025-03-13 오후 5:38:06 목요일
+==========================================
+
+//----------------------------------------------------
+// save.h
+//											2025.03.13
+//----------------------------------------------------
+
+#pragma once
+
+void save(std::string_view);
+
+==========================================
+저장한 시간: 2025-03-13 오후 5:38:06 목요일
+==========================================
+
+//----------------------------------------------------
+// save.cpp - 한 학기 강의를 잘 저장하는 함수
+//											2025.03.13
+//----------------------------------------------------
+
+#include <string_view>
+#include <iostream>
+#include <fstream>
+#include <filesystem>
+#include <chrono>
+#include "save.h"
+
+void save(std::string_view filename)
+{
+	// 1.인자로 전달된 파일을 읽기 모드로 연다.
+	std::ifstream in{ filename.data() }; // RAII
+
+	if (not in)
+	{
+		std::cout << filename << "을 열 수 없습니다." << std::endl;
+		exit(20250310);
+	}
+
+	// 저장했다는 것을 화면에 표시
+	std::cout << filename << "(" << std::filesystem::file_size(filename) << " bytes) 저장하였습니다." << std::endl;
+
+	// 2.쓰기모드로 저장할 파일을 (덧붙이기 모드로) 연다
+	std::ofstream out{ "2025 1학기 STL 강의저장.txt", std::ios::app }; // { } <- uniform initializer
+
+
+
+	// 시간 기록
+	auto now = std::chrono::system_clock::now(); // epoch로 부터 경과된 tick 수를 얻는다.
+	auto utc = std::chrono::system_clock::to_time_t(now); // UTC
+	auto lt = std::localtime(&utc); // 지역시간(한국)으로 변경
+
+	auto old = out.imbue(std::locale("Ko-KR")); // 스트림의 지역을 변경
+
+	out << "\n" << "\n";
+	out << "==========================================" << "\n";
+	out << "저장한 시간: " << std::put_time(lt, "%c %A") << "\n";
+	out << "==========================================" << "\n";
+	out << "\n";
+
+	out.imbue(old); // 변경 이전으로 복원
+
+	// 3.파일을 읽어서 저장할 파일에 덧붙인다.
+	std::copy(std::istreambuf_iterator{ in }, {}, std::ostreambuf_iterator{ out });
+}
+
+==========================================
+저장한 시간: 2025-03-13 오후 7:02:21 목요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 3월 13일 목요일				(2주 1일)
+//-----------------------------------------------------------
+// Generic Programming의 핵심 키워드 - template
+//-----------------------------------------------------------
+
+#include <algorithm>
+#include <iostream>
+#include "save.h"
+
+// [문제] main을 변경하지 말고 의도대로 실행되게 코딩하라. 단 Dog는 Class이다.
+
+class Dog
+{
+public:
+	Dog() = default;
+	Dog(int dognumber) : dognum{ dognumber } {};
+
+	friend std::ostream& operator<< (std::ostream& os, const Dog& obj) {
+		os << obj.dognum;
+		return os;
+	}
+
+private:
+	int dognum;
+};
+
+//템플릿은 선언과 정의를 동시에 해야 한다.
+template <class T>
+void change(T& a, T& b) {
+	T temp{ a };
+	a = b;
+	b = temp;
+}
+
+int main()
+{
+	{
+		Dog a{ 1 }, b{ 2 };
+		change(a, b);
+		// 어떤 함수가 실행되는 것인가
+		// 1. change(Dog, Dog);
+		// 2. change(Dog&, Dog&);
+		// 3. 컴파일러인 내가 만들 순 없을까?
+		std::cout << a << ", " << b << std::endl;
+	}
+
+	{
+		int a{ 1 }, b{ 2 };
+		change(a, b);
+		std::cout << a << ", " << b << std::endl;
+	}
+
+	
+	save("메인.cpp");
+}
+
+==========================================
+저장한 시간: 2025-03-17 오후 6:45:14 월요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 3월 17일 월요일				(2주 2일)
+//-----------------------------------------------------------
+// 많은 수의 자료를 다루기 - int
+//-----------------------------------------------------------
+
+#include <iostream>
+#include "save.h"
+
+#include <random>
+#include <print>
+#include <array>
+#include <algorithm>
+
+std::mt19937_64 dre(std::random_device{}());
+std::uniform_int_distribution<int> uid{ 0, 1000000000 };
+
+int main()
+{
+	std::array<int, 1000> arr; // T[N] -> array<T,N>
+
+	std::generate(arr.begin(), arr.end(), [] { return uid(dre); }); // begin부터 end까지 3번째 인수의 함수의 리턴값으로 초기화
+
+	std::print("가장 큰 값은 {:10}이다.\n", *std::max_element(arr.begin(), arr.end()));
+
+	save("메인.cpp");
+}
+
+==========================================
+저장한 시간: 2025-03-17 오후 6:59:56 월요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 3월 17일 월요일				(2주 2일)
+//-----------------------------------------------------------
+// 많은 수의 자료를 다루기 - int
+//-----------------------------------------------------------
+
+#include <iostream>
+#include "save.h"
+
+#include <random>
+#include <fstream>
+#include <print>
+
+std::mt19937_64 dre(std::random_device{}());
+std::uniform_int_distribution<int> uid{ 0, 10000000 };
+
+// [문제] 랜덤 int값 1000개 파일 "int 1000개.txt"에 저장하라.
+// 저장한 파일은 사람이 읽을 수 있어야 한다. 나중에 파일에서 int값을 읽어 올 수 있어야 한다.
+
+int main()
+{
+	std::ofstream out{ "int 1000개.txt" };
+
+	int cnt{ 0 };
+	for (int i = 0; i < 1000; i++)
+	{
+		std::print(out, "{:8}", uid(dre));
+		if (0 == ++cnt % 10)
+		{
+			out << std::endl;
+		}
+	}
+
+	save("메인.cpp");
+}
+
+==========================================
+저장한 시간: 2025-03-20 오후 6:06:09 목요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 3월 20일 월요일				(3주 1일)
+//-----------------------------------------------------------
+// 많은 수의 자료를 다루기 - int를 메모리 크기 그대로 저장
+//-----------------------------------------------------------
+
+#include <iostream>
+#include <array>
+#include <numeric>
+#include <fstream>
+#include "save.h"
+
+// [상황] int 1000개를 메모리 크기 그대로 저장하고 싶다.
+// 파일 "int 1000개를 메모리 그대로.txt"에 저장한다.
+// 이런 상황에는 해당 stream의 저수준 입출력 함수(read/write)를 사용한다.
+
+int main()
+{
+	std::array<int, 1000> arr;
+	std::iota(arr.begin(), arr.end(), 1);
+
+	std::ofstream out{ "int 1000개를 메모리 그대로.txt" };
+	out.write( (char*)arr.data(), arr.size() * sizeof(int) );
+
+	for (int num : arr) {
+		std::cout << num << " ";
+	}
+	std::cout << std::endl;
+
+	save("메인.cpp");
+}
+
+==========================================
+저장한 시간: 2025-03-20 오후 6:24:20 목요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 3월 20일 월요일				(3주 1일)
+//-----------------------------------------------------------
+// 많은 수의 자료를 다루기 - int를 메모리 크기 그대로 저장
+//-----------------------------------------------------------
+
+#include <iostream>
+#include <array>
+#include <numeric>
+#include <fstream>
+#include "save.h"
+
+// [상황] int 1000개를 메모리 크기 그대로 저장하고 싶다.
+// 파일 "int 1000개를 메모리 그대로.txt"에 저장한다.
+// 이런 상황에는 해당 stream의 저수준 입출력 함수(read/write)를 사용한다.
+
+int main()
+{
+	std::array<int, 1000> arr;
+	arr.fill(1);
+	//std::iota(arr.begin(), arr.end(), 1);
+
+	std::ofstream out{ "int 1000개를 메모리 그대로.txt" , std::ios::binary };
+
+	out.write((char*)arr.data(), arr.size() * sizeof(decltype(arr)::value_type));
+
+	save("메인.cpp");
+}
+
+==========================================
+저장한 시간: 2025-03-20 오후 6:32:08 목요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 3월 20일 월요일				(3주 1일)
+//-----------------------------------------------------------
+// 많은 수의 자료를 다루기 - int를 메모리 크기 그대로 저장
+//-----------------------------------------------------------
+
+#include <iostream>
+#include <array>
+#include <fstream>
+#include <random>
+#include "save.h"
+
+// 진짜 랜덤값(non deterministic value)을 갖는 int 10만개를
+// 파일 "진짜 랜덤 10만개"에 저장하였다.
+// 파일을 binary mode로 열었고 write함수를 사용하여 메모리 그대로 저장하였다.
+
+
+int main()
+{
+	std::array<int, 10'0000> arr;
+
+	std::generate(arr.begin(), arr.end(), [] { std::random_device rd; return rd(); });
+
+	std::ofstream out{ "진짜 랜덤 10만개" , std::ios::binary };
+
+	out.write((char*)arr.data(), arr.size() * sizeof(decltype(arr)::value_type));
+
+	save("메인.cpp");
+}
+
+==========================================
+저장한 시간: 2025-03-20 오후 6:53:50 목요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 3월 20일 월요일				(3주 1일)
+//-----------------------------------------------------------
+// 많은 수의 자료를 다루기 - int를 메모리 크기 그대로 저장
+//-----------------------------------------------------------
+
+#include <iostream>
+#include <fstream>
+#include <vector>
+#include <algorithm>
+#include "save.h"
+
+// [문제] "진짜 랜덤 10만개"에는 int값이 기록되어 있다.
+// 파일은 binary mode로 열었고 파일의 write 함수로 메모리 그대로 기록하였다.
+// 파일에 있는 모든 int 값을 메모리에 저장하라.
+// 가장 작은 값과 가장 큰 값을 찾아 화면에 출력하라.
+
+int main()
+{
+	std::ifstream in{ "진짜 랜덤 10만개",std::ios::binary };
+	if (not in)
+	{
+		std::cout << "진짜 랜덤 10만개을 열 수 없습니다." << std::endl;
+		exit(4444);
+	}
+
+	int num{ 0 };
+	int count{ 0 };
+	while (in.read((char*)&num, sizeof(int))) {
+		++count;
+	}
+
+	std::cout << "int의 개수 : " << count << "개" << std::endl;
+	
+	// int 개수 확인
+
+	save("메인.cpp");
+}
+
+==========================================
+저장한 시간: 2025-03-20 오후 7:02:10 목요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 3월 20일 월요일				(3주 1일)
+//-----------------------------------------------------------
+// 많은 수의 자료를 다루기 - int를 메모리 크기 그대로 저장
+//-----------------------------------------------------------
+
+#include <iostream>
+#include <fstream>
+#include <array>
+#include <algorithm>
+#include "save.h"
+
+// [문제] "진짜 랜덤 10만개"에는 int값 10만개가 기록되어 있다.
+// 파일은 binary mode로 열었고 파일의 write 함수로 메모리 그대로 기록하였다.
+// 파일에 있는 모든 int 값을 메모리에 저장하라.
+// 가장 작은 값과 가장 큰 값을 찾아 화면에 출력하라.
+
+int main()
+{
+	std::ifstream in{ "진짜 랜덤 10만개",std::ios::binary };
+
+	std::array<int, 10'0000> arr;
+
+	in.read((char*)arr.data(), sizeof(int) * arr.size());
+
+	std::pair minmax = std::minmax_element(arr.begin(), arr.end());
+
+	std::cout << "최솟값 : " << *minmax.first << std::endl;
+	std::cout << "최댓값 : " << *minmax.second << std::endl;
+
+	save("메인.cpp");
+}
+
+==========================================
+저장한 시간: 2025-03-24 오후 5:41:08 월요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 3월 24일 월요일				(3주 2일)
+//-----------------------------------------------------------
+// 많은 수의 자료를 다루기 - int를 메모리 크기 그대로 저장
+//-----------------------------------------------------------
+
+#include <iostream>
+#include <fstream>
+#include <array>
+#include <algorithm>
+#include "save.h"
+
+// [문제] "진짜 랜덤 10만개"에는 int값 10만개가 기록되어 있다.
+// 파일은 binary mode로 열었고 파일의 write 함수로 메모리 그대로 기록하였다.
+// 파일에 있는 모든 int 값을 메모리에 저장하라.
+// 가장 작은 값과 가장 큰 값을 찾아 화면에 출력하라.
+
+int main()
+{
+	std::ifstream in{ "진짜 랜덤 10만개",std::ios::binary };
+
+	std::array<int, 10'0000> arr;
+
+	in.read((char*)arr.data(), sizeof(int) * arr.size());
+
+	// structured binding
+	auto [최솟값의위치, 최댓값의위치] = std::minmax_element(arr.begin(), arr.end());
+	std::cout << "최솟값 : " << *최솟값의위치<< std::endl;
+	std::cout << "최댓값 : " << *최댓값의위치 << std::endl;
+
+	save("메인.cpp");
+}
+
+==========================================
+저장한 시간: 2025-03-24 오후 6:11:38 월요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 3월 24일 월요일				(3주 2일)
+//-----------------------------------------------------------
+// 많은 수의 자료를 다루기 - Dog를 읽고 쓸 수 있게
+//-----------------------------------------------------------
+
+#include <iostream>
+#include <string>
+#include <random>
+#include <print>
+#include <fstream>
+
+#include "save.h"
+
+std::default_random_engine dre;
+std::uniform_int_distribution<int> uid{ 'a','z' };
+
+class Dog {
+public:
+	Dog() : id{ ++sid } {
+		for (int i = 0; i < 15; i++) {
+			name += uid(dre);
+		}
+	}
+
+	void show() const {
+		std::println("[{:8}] - {}", id, name);
+	}
+private:
+	std::string name{};
+	int id;
+
+	static int sid; //scope:local, life-time:global
+};
+
+int Dog::sid{};
+
+// Dog객체 10만개를 "Dog 10만 마리"에 저장하였다.
+// 파일은 binary mode로 열었고 Dog객체는 파일의 write함수를 사용하여 메모리 그대로 저장하였다.
+
+int main()
+{
+	std::ofstream out{ "Dog 10만 마리",std::ios::binary };
+
+	for (int i = 0; i < 10'0000; ++i) {
+		Dog dog;
+		out.write((char*)&dog, sizeof(Dog));
+	}
+	
+
+	save("메인.cpp");
+}
+
+==========================================
+저장한 시간: 2025-03-24 오후 6:39:40 월요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 3월 24일 월요일				(3주 2일)
+//-----------------------------------------------------------
+// 많은 수의 자료를 다루기 - Dog를 읽고 쓸 수 있게
+//-----------------------------------------------------------
+
+#include <iostream>
+#include <string>
+#include <fstream>
+#include <array>
+
+#include "save.h"
+
+// "Dog 10만 마리"에는 Dog객체 10만개가 저장되어 있다.
+// 파일은 binary mode로 열었고 write를 사용하여 메모리 그대로 저장하였다.
+// Dog 객체 10만개를 메모리에 모두 저장하라.
+// 제일 마지막 객체의 정보를 화면에 cout으로 출력하라
+
+class Dog{
+private:
+	std::string name{};
+	int id{};
+
+	friend std::ostream& operator<<(std::ostream& os, const Dog& dog) {
+		return os << dog.id << " - " << dog.name;
+	}
+};
+
+std::array < Dog, 10'0000> dogs;
+
+int main()
+{
+	std::ifstream in{ "Dog 10만 마리" ,std::ios::binary };
+	if (not in) return 4444;
+
+	in.read((char*)dogs.data(), sizeof(Dog) * dogs.size());
+
+	std::cout << dogs.back() << std::endl;
+
+	save("메인.cpp");
+}
+
+==========================================
+저장한 시간: 2025-03-24 오후 6:45:34 월요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 3월 24일 월요일				(3주 2일)
+//-----------------------------------------------------------
+// 많은 수의 자료를 다루기 - Dog를 읽고 쓸 수 있게
+//-----------------------------------------------------------
+
+#include <iostream>
+#include <string>
+#include <fstream>
+#include <array>
+
+#include "save.h"
+
+// "Dog 10만 마리"에는 Dog객체 10만개가 저장되어 있다.
+// 파일은 binary mode로 열었고 write를 사용하여 메모리 그대로 저장하였다.
+// Dog 객체 10만개를 메모리에 모두 저장하라.
+// 모든 객체의 정보를 화면에 cout으로 출력하라
+
+class Dog{
+private:
+	std::string name{};
+	int id{};
+
+	friend std::ostream& operator<<(std::ostream& os, const Dog& dog) {
+		return os << dog.id << " - " << dog.name;
+	}
+};
+
+std::array < Dog, 10'0000> dogs;
+
+int main()
+{
+	std::ifstream in{ "Dog 10만 마리" ,std::ios::binary };
+	if (not in) return 4444;
+
+	in.read((char*)dogs.data(), sizeof(Dog) * dogs.size());
+
+	for (const auto& dog : dogs)
+		std::cout << dog << std::endl;
+
+	save("메인.cpp");
+}
+
+==========================================
+저장한 시간: 2025-03-24 오후 6:58:34 월요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 3월 24일 월요일				(3주 2일)
+//-----------------------------------------------------------
+// 많은 수의 자료를 다루기 - Dog를 읽고 쓸 수 있게
+//-----------------------------------------------------------
+
+#include <iostream>
+#include <string>
+#include <fstream>
+#include <array>
+
+#include "save.h"
+
+// "Dog 10만 마리"에는 Dog객체 10만개가 저장되어 있다.
+// 파일은 binary mode로 열었고 write를 사용하여 메모리 그대로 저장하였다.
+// 메인 코드가 수정없이 실행될 수 있도록 필요한 코딩을 추가하라
+
+class Dog{
+private:
+	std::string name{};
+	int id{};
+
+	friend std::ostream& operator<<(std::ostream& os, const Dog& dog) {
+		return os << dog.id << " - " << dog.name;
+	}
+
+	friend std::istream& operator>>(std::istream& is, Dog& dog) {
+		return is.read((char*)&dog, sizeof(Dog));
+	}
+};
+
+std::array < Dog, 10'0000> dogs;
+
+int main()
+{
+	std::ifstream in{ "Dog 10만 마리" ,std::ios::binary };
+	if (not in) return 4444;
+
+	for (int i = 0; i < dogs.size(); ++i) {
+		in >> dogs[i];
+	}
+
+	for (const auto& dog : dogs) {
+		std::cout << dog << std::endl;
+	}
+
+	save("메인.cpp");
+}
+
+==========================================
+저장한 시간: 2025-03-27 오후 6:12:25 목요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 3월 27일 월요일				(4주 1일)
+//-----------------------------------------------------------
+// RAII와 smart pointer
+//-----------------------------------------------------------
+
+#include <iostream>
+#include <numeric>
+#include "save.h"
+
+// [문제] 양의 정수(int의 최댓값까지)를 입력받아 num에 저장하라.
+// int값을 num개 저장할 수 있는 메모리를 확보하라.
+// 메모리의 내용을 1부터 시작하는 정수로 채워라.
+// 메모리에 있는 값의 합계를 화면에 출력하라.
+// 이 과정을 영원히 반복하라.
+
+int main()
+{
+	save("메인.cpp");
+
+	while (true) {
+		std::cout << "양의 정수를 입력하시오. : ";
+		int num{ 0 };
+
+		std::cin >> num;
+
+
+		//malloc(num * sizeof(int));	//HEAP - 반환값이 void*
+		int *p = new int[num];			//free-store - 오퍼레이터이다. 즉 타입이 지정되어 사용한다.
+		std::iota(p, p + num, 1);
+
+		unsigned long long sum{};
+
+		sum = std::accumulate(p, p + num, 0LL);
+
+		std::cout << "1부터 " << num << "까지 합계 - " << sum << std::endl;
+		delete[] p;
+	}
+}
+
+==========================================
+저장한 시간: 2025-03-27 오후 6:24:57 목요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 3월 27일 월요일				(4주 1일)
+//-----------------------------------------------------------
+// RAII와 smart pointer
+//-----------------------------------------------------------
+
+#include <iostream>
+#include "save.h"
+
+void f() {
+	int* p = new int[20'0000'0000] { };
+
+	std::cout << "메모리 확보" << std::endl;
+
+	//delete[] p;
+}
+
+int main()
+{
+	try {
+		while (true) {
+			f();
+		}
+	}
+	catch (const std::exception& e) {
+		std::cout << e.what() << std::endl;
+		save("메인.cpp");
+	}
+
+	
+}
+
+==========================================
+저장한 시간: 2025-03-27 오후 6:50:42 목요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 3월 27일 월요일				(4주 1일)
+//-----------------------------------------------------------
+// RAII와 smart pointer
+//-----------------------------------------------------------
+
+#include <iostream>
+#include "save.h"
+
+class Dog {
+public:
+	Dog();
+	~Dog();
+
+private:
+
+};
+
+Dog::Dog() {
+	std::cout << "Dog 생성됨" << std::endl;
+}
+
+Dog::~Dog() {
+	std::cout << "Dog 소멸됨" << std::endl;
+}
+
+class 스마트 {
+public:
+	스마트(Dog* p) : p{ p } {};
+	~스마트() {
+		delete p;
+	}
+private:
+	Dog* p;
+};
+
+void f() {
+	스마트 p{ new Dog }; // RAII : 자원의 생명주기(life cycle)를 객체의 생명주기와 일치시키는 기법
+
+	throw 2021182009;
+
+	std::cout << "f가 끝나간다..." << std::endl;
+}
+
+int main()
+{
+	try {
+		f();
+	}
+	catch ( ... ) {
+		std::cout << "예외 잡음" << std::endl;
+	}
+	save("메인.cpp");
+}
+
+// C++은 지역 객체는 반드시 소멸함을 보증함. Stack을 돌아가며 소멸시킴(Stack unwinding)
+
+==========================================
+저장한 시간: 2025-03-27 오후 6:54:09 목요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 3월 27일 월요일				(4주 1일)
+//-----------------------------------------------------------
+// RAII와 smart pointer
+//-----------------------------------------------------------
+
+#include <iostream>
+#include <memory>
+#include "save.h"
+
+class Dog {
+public:
+	Dog() {
+		std::cout << "Dog 생성됨" << std::endl;
+	}
+
+	~Dog() {
+		std::cout << "Dog 소멸됨" << std::endl;
+	}
+};
+
+
+
+void f() {
+	std::unique_ptr<Dog[]> p{new Dog[10]}; // 생성시에 자원을 바로 초기화함. = 을 사용하는 대입 연산 X
+
+	std::cout << "f가 끝나간다." << std::endl;
+}
+
+int main()
+{
+	f();
+	save("메인.cpp");
+}
+
+==========================================
+저장한 시간: 2025-03-27 오후 6:59:28 목요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 3월 27일 월요일				(4주 1일)
+//-----------------------------------------------------------
+// RAII와 smart pointer
+// 자원의 생명주기를 핸들러의 생명주기에 일치시키는 기법
+//-----------------------------------------------------------
+
+#include <iostream>
+#include <memory>
+#include "save.h"
+
+class Dog {
+public:
+	Dog() {
+		std::cout << "Dog 생성됨" << std::endl;
+	}
+
+	~Dog() {
+		std::cout << "Dog 소멸됨" << std::endl;
+	}
+};
+
+
+
+void f() {
+	std::unique_ptr<Dog[]> p = std::make_unique<Dog[]>(10); // new 대신 도우미 함수
+}
+
+int main()
+{
+	f();
+	save("메인.cpp");
+}
+
+==========================================
+저장한 시간: 2025-03-31 오후 5:52:37 월요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 3월 31일 월요일				(4주 2일)
+//-----------------------------------------------------------
+// Callable types - 호출가능한 타입
+// 1. 함수
+//-----------------------------------------------------------
+
+#include <iostream>
+#include <fstream>
+#include <algorithm>
+#include "save.h"
+
+// [문제] "메인.cpp"파일의 소문자를 대문자로 변환하여 "메인 대문자.cpp"에 저장하라
+
+int main()
+{
+	std::ifstream in{ "메인.cpp" };
+	if (not in) {
+		return 2021182009;
+	}
+
+	std::ofstream out{ "메인 대문자.cpp" };
+
+	std::transform(std::istreambuf_iterator<char>{in}, { }, std::ostreambuf_iterator<char>{std::cout},
+		[](char c) {
+			return toupper(c);
+	});
+
+	save("메인.cpp");
+}
+
+==========================================
+저장한 시간: 2025-03-31 오후 6:36:04 월요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 3월 31일 월요일				(4주 2일)
+//-----------------------------------------------------------
+// Callable types - 호출가능한 타입
+// 1. 함수
+//-----------------------------------------------------------
+
+#include <iostream>
+#include <random>
+#include <array>
+#include <print>
+#include <ranges>
+#include "save.h"
+
+// [문제] 값의 범위가 [0,1000'0000) 까지인 랜덤 int값 1000만개를 저장할 메모리를 확보하고 값을 채워라
+// (시작) qsort로 오름차순 정렬하라
+// 정렬한 결과 중에서 앞에서부터 1000개만 화면에 출력하라
+
+
+std::random_device rd;
+std::mt19937_64 dre(rd());
+std::uniform_int_distribution<int> uid(0, 1000'0000 - 1);
+
+std::array<int, 1000'0000> randomNumber;
+
+int 오름차순(const void* a, const void * b) {
+	return *(int*)a - *(int*)b;
+}
+
+int main()
+{
+	for (int& num : randomNumber) {
+		num = uid(dre);
+	}
+
+	// qsort로 정렬
+	//정렬방법 = 오름차순;
+	//정렬방법 = 내림차순;
+	std::qsort(randomNumber.data(), randomNumber.size(), sizeof(std::array<int, 1000'0000>::value_type), 오름차순);
+
+	for ( int num : randomNumber | std::views::take(1000)) {
+		std::print("{:8}", num);
+	}
+
+	save("메인.cpp");
+}
