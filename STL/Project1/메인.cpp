@@ -1,45 +1,50 @@
 //-----------------------------------------------------------
-// 2025.1 학기		 STL 3월 31일 월요일				(4주 2일)
+// 2025.1 학기		 STL 4월 07일 월요일				(5주 2일)
+// 중간고사(30)	- 4월 24일 목요일 (8주 1일)
+// 과제설명(30)	- 4월 10일 목요일 (6주 1일)
 //-----------------------------------------------------------
-// Callable types - 호출가능한 타입
-// 1. 함수
+// class STRING 작성시작 - std::string과 유사한 동작을 한다.
 //-----------------------------------------------------------
 
 #include <iostream>
-#include <random>
-#include <array>
-#include <print>
-#include <ranges>
-#include <algorithm>
-#include <chrono>
+#include <string>
+#include <memory>
 #include "save.h"
 
-std::mt19937_64 dre(std::random_device{}());
-std::uniform_int_distribution<int> uid(0, 1000'0000 - 1);
+using namespace std;
 
-std::array<int, 1000'0000> randomNumber;
+class STRING {
+public:
+	STRING(const char* str) : num{ strlen(str) } { // T[N] -> T* collapsing
+		p.release();					// 생성시에 이렇게 할 필요는 없다.
+		p = make_unique<char[]>(num);
+		memcpy(p.get(), str, num);		// DMA(Direct Memory Access)가 가능하다. CPU거치지 않고 초고속 메모리 복사.
+	};
 
-int main()
-{
-	for (int& num : randomNumber) {
-		num = uid(dre);
+	size_t size() const {
+		return num;
+	};
+
+private:
+	size_t num{};
+	unique_ptr<char[]> p{};
+
+	friend ostream& operator<<(ostream& os, const STRING& s) {
+		for (int i = 0; i < s.num; ++i) {
+			os << s.p[i];
+		}
+		return os;
 	}
+};
 
-	// STL의 sort로 내림차순 정렬
-	// 정렬에 걸리는 시간
-	// 스톱워치 시작
-	auto b = std::chrono::high_resolution_clock::now();
-	std::sort(randomNumber.begin(), randomNumber.end(), [] (int a, int b) {
-		return a > b;
-		});
-	auto e = std::chrono::high_resolution_clock::now();
-	// 스톱워치 끝
 
-	for ( int num : randomNumber | std::views::take(1000)) {
-		std::print("{:8}", num);
-	}
+int main(){
+	STRING s{ "std::string과 유사한 클래스" };
 
-	std::cout << std::endl << "정렬에 걸린 시간 : " << e - b << std::endl;
+	cout << "s가 관리하는 자원의 바이트 수 : " << s.size() << endl;
 
+	//STRING t = s;
+	cout << s << endl;
+	//cout << t << endl;
 	//save("메인.cpp");
 }

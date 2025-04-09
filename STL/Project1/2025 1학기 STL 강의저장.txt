@@ -1162,3 +1162,702 @@ int main()
 
 	save("메인.cpp");
 }
+
+==========================================
+저장한 시간: 2025-04-03 오후 5:45:50 목요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 4월 03일 목요일				(5주 1일)
+// 중간고사(30)	- 4월 24일 목요일 (8주 1일)
+// 과제설명(30)	- 4월 10일 목요일 (6주 1일)
+//-----------------------------------------------------------
+// Callable types - 호출가능한 타입
+// 1. 함수
+//-----------------------------------------------------------
+
+#include <iostream>
+#include <random>
+#include <array>
+#include <print>
+#include <ranges>
+#include <algorithm>
+#include <chrono>
+#include "save.h"
+
+std::mt19937_64 dre(std::random_device{}());
+std::uniform_int_distribution<int> uid(0, 1000'0000 - 1);
+
+std::array<int, 1000'0000> randomNumber;
+
+bool 내림차순(int a, int b) {
+	return a > b;
+}
+
+int main()
+{
+	{
+		// sort로 내림차순 정렬
+		for (int& num : randomNumber) {
+			num = uid(dre);
+		}
+		auto b = std::chrono::high_resolution_clock::now();
+		std::sort(randomNumber.begin(), randomNumber.end(), 내림차순);
+		auto e = std::chrono::high_resolution_clock::now();
+
+		std::cout << "정렬 경과(duration)시간 (함수) : " << e - b << std::endl;
+
+	}
+
+	{
+		// STL의 sort로 내림차순 정렬 -> 람다로 코딩
+		for (int& num : randomNumber) {
+			num = uid(dre);
+		}
+		auto b = std::chrono::high_resolution_clock::now();
+		std::sort(randomNumber.begin(), randomNumber.end(), [](int a, int b)
+			{return a > b; });
+		auto e = std::chrono::high_resolution_clock::now();
+
+		std::cout << "정렬 경과(duration)시간 (람다) : " << e - b << std::endl;
+
+	}
+
+	save("메인.cpp");
+}
+
+==========================================
+저장한 시간: 2025-04-03 오후 6:09:29 목요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 4월 03일 목요일				(5주 1일)
+// 중간고사(30)	- 4월 24일 목요일 (8주 1일)
+// 과제설명(30)	- 4월 10일 목요일 (6주 1일)
+//-----------------------------------------------------------
+// Callable types - 호출가능한 타입
+// 1. 함수
+// 2. 함수 포인터
+// 3. 람다
+// 4. 함수객체
+// 5. 멤버함수
+//-----------------------------------------------------------
+
+#include <iostream>
+#include <random>
+#include <array>
+#include <print>
+#include <ranges>
+#include <algorithm>
+#include <chrono>
+#include "save.h"
+
+std::mt19937_64 dre(std::random_device{}());
+std::uniform_int_distribution<int> uid(0, 1000'0000 - 1);
+
+std::array<int, 1000'0000> randomNumber;
+
+bool 내림차순(int a, int b) {
+	return a > b;
+}
+
+int main()
+{
+	{
+		// sort로 내림차순 정렬
+		for (int& num : randomNumber) {
+			num = uid(dre);
+		}
+		auto b = std::chrono::high_resolution_clock::now();
+		std::sort(randomNumber.begin(), randomNumber.end(), 내림차순);
+		auto e = std::chrono::high_resolution_clock::now();
+
+		std::cout << "정렬 경과(duration)시간 (함수) : " << e - b << std::endl;
+	}
+	
+	{
+		// STL의 sort로 내림차순 정렬 -> 람다로 코딩
+		for (int& num : randomNumber) {
+			num = uid(dre);
+		}
+		auto b = std::chrono::high_resolution_clock::now();
+		std::sort(randomNumber.begin(), randomNumber.end(), [](int a, int b)
+			{return a > b; });
+		auto e = std::chrono::high_resolution_clock::now();
+
+		std::cout << "정렬 경과(duration)시간 (람다) : " << e - b << std::endl;
+	}
+
+	// sort는 템플릿 함수. 원형은 sort<T>(); 즉, 컴파일 시 소스 코드를 생성 ->	함수를 적어 놓으면 함수 호출문을 생성
+	//									람다면 코드 자체를 적음(인라인화) => 함수 호출X = function call에 소요되는 overhead가 없음
+
+	for (int num : randomNumber | std::ranges::views::reverse | std::ranges::views::take(1000)) {
+		std::print("{:8}", num);
+	}
+
+	save("메인.cpp");
+}
+
+==========================================
+저장한 시간: 2025-04-03 오후 6:25:17 목요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 4월 03일 목요일				(5주 1일)
+// 중간고사(30)	- 4월 24일 목요일 (8주 1일)
+// 과제설명(30)	- 4월 10일 목요일 (6주 1일)
+//-----------------------------------------------------------
+// Callable types - 호출가능한 타입
+// 1. 함수
+// 2. 함수 포인터
+// 3. 람다
+// 4. 함수객체
+// 5. 멤버함수
+//-----------------------------------------------------------
+
+#include <iostream>
+#include "save.h"
+
+class ABC {
+	// [] () {};
+	// 람다 인트로듀서[] -> operator()
+public:
+	void operator()() {
+		std::cout << "나는 람다람쥐야!" << std::endl;
+	};
+};
+
+int main()
+{
+
+	ABC f;
+
+	f();
+
+	std::cout << "람다의 정체 - " << typeid(f).name() << std::endl;
+	// 충격진실 람다는 클래스이다. (비쥬얼 스튜디오에서는)
+	save("메인.cpp");
+}
+
+==========================================
+저장한 시간: 2025-04-03 오후 6:29:20 목요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 4월 03일 목요일				(5주 1일)
+// 중간고사(30)	- 4월 24일 목요일 (8주 1일)
+// 과제설명(30)	- 4월 10일 목요일 (6주 1일)
+//-----------------------------------------------------------
+// Callable types - 호출가능한 타입
+// 1. 함수
+// 2. 함수 포인터
+// 3. 람다
+// 4. 함수객체
+// 5. 멤버함수
+//-----------------------------------------------------------
+
+#include <iostream>
+#include "save.h"
+
+class Dog {
+public:
+	void operator()(const int n) {
+		std::cout << "개" << std::endl;
+	}
+};
+
+int main()
+{
+	Dog dog;
+
+	dog(1); //함수 호출 연산자(function-call operator)도 오버로딩 가능하다. 
+
+	save("메인.cpp");
+}
+
+==========================================
+저장한 시간: 2025-04-03 오후 6:34:26 목요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 4월 03일 목요일				(5주 1일)
+// 중간고사(30)	- 4월 24일 목요일 (8주 1일)
+// 과제설명(30)	- 4월 10일 목요일 (6주 1일)
+//-----------------------------------------------------------
+// Callable types - 호출가능한 타입
+// 1. 함수
+// 2. 함수 포인터
+// 3. 람다 - 이름없는 함수인데, VS에서는 함수객체를 이용하여 람다를 구현함
+// 4. 함수객체(function object) - 함수호출연산자를 오버로딩한 클래스의 객체
+// 5. 멤버함수
+//-----------------------------------------------------------
+
+#include <iostream>
+#include "save.h"
+
+class Dog {
+public:
+	void operator()(const int n) {
+		std::cout << "개" << std::endl;
+	}
+};
+
+int main()
+{
+	int a, b;
+	a = b;	//a와 b의 타입이 같다면 이 문장은 언제나 참이다.
+
+	Dog dog;
+
+	dog(1); //함수 호출 연산자(function-call operator)도 오버로딩 가능하다. 
+
+	save("메인.cpp");
+}
+
+==========================================
+저장한 시간: 2025-04-03 오후 6:39:31 목요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 4월 03일 목요일				(5주 1일)
+// 중간고사(30)	- 4월 24일 목요일 (8주 1일)
+// 과제설명(30)	- 4월 10일 목요일 (6주 1일)
+//-----------------------------------------------------------
+// Callable types - 호출가능한 타입
+// 1. 함수
+// 2. 함수 포인터
+// 3. 람다 - 이름없는 함수인데, VS에서는 함수객체를 이용하여 람다를 구현함
+// 4. 함수객체(function object) - 함수호출연산자를 오버로딩한 클래스의 객체
+// 5. 멤버함수
+//-----------------------------------------------------------
+
+#include <iostream>
+#include "save.h"
+
+class Dog {
+public:
+	void operator()(const int n) {
+		std::cout << "개" << std::endl;
+	}
+};
+
+int main()
+{
+	//void a(int);
+	//void b(int);
+
+	//void(*f)(int) = a;
+	//f = b;
+
+	// lvalue는 location value 메모리 주소를 가지는 값으로, 변수나 객체처럼 수정 가능한 표현식
+
+	Dog dog;
+
+	dog(1); //함수 호출 연산자(function-call operator)도 오버로딩 가능하다. 
+
+	save("메인.cpp");
+}
+
+==========================================
+저장한 시간: 2025-04-03 오후 6:44:00 목요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 4월 03일 목요일				(5주 1일)
+// 중간고사(30)	- 4월 24일 목요일 (8주 1일)
+// 과제설명(30)	- 4월 10일 목요일 (6주 1일)
+//-----------------------------------------------------------
+// Callable types - 호출가능한 타입
+// 1. 함수
+// 2. 함수 포인터
+// 3. 람다 - 이름없는 함수인데, VS에서는 함수객체를 이용하여 람다를 구현함
+// 4. 함수객체(function object) - 함수호출연산자를 오버로딩한 클래스의 객체
+// 5. 멤버함수
+// 1,2는 함수 3,4는 클래스
+//-----------------------------------------------------------
+
+#include <iostream>
+#include "save.h"
+
+class Dog {
+public:
+	void operator()(const int n) {
+		std::cout << "개" << std::endl;
+	}
+};
+
+int main()
+{
+	//void a(int);
+	//void b(int);
+
+	//void(*f)(int) = a;
+	//f = b;
+
+	// lvalue는 location value 메모리 주소를 가지는 값으로, 변수나 객체처럼 수정 가능한 표현식
+
+	Dog dog;
+
+	dog(1); //함수 호출 연산자(function-call operator)도 오버로딩 가능하다. 
+
+	save("메인.cpp");
+}
+
+==========================================
+저장한 시간: 2025-04-03 오후 6:48:05 목요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 4월 03일 목요일				(5주 1일)
+// 중간고사(30)	- 4월 24일 목요일 (8주 1일)
+// 과제설명(30)	- 4월 10일 목요일 (6주 1일)
+//-----------------------------------------------------------
+// Callable types - 호출가능한 타입 ==> 모든 호출가능타입을 대표하는 function
+// 1. 함수
+// 2. 함수 포인터
+// 3. 람다 - 이름없는 함수인데, VS에서는 함수객체를 이용하여 람다를 구현함
+// 4. 함수객체(function object) - 함수호출연산자를 오버로딩한 클래스의 객체
+// 5. 멤버함수
+// 1,2는 함수 3,4는 클래스
+//-----------------------------------------------------------
+
+#include <iostream>
+#include <functional>
+#include "save.h"
+
+class Dog {
+public:
+	void operator()(const int n) {
+		std::cout << "개" << std::endl;
+	}
+};
+
+int main()
+{
+	save("메인.cpp");
+	//int a(int);
+	//void b(int);
+
+	//std::function<int(int)> f = a; // 대표 표기법
+
+}
+
+==========================================
+저장한 시간: 2025-04-03 오후 6:52:37 목요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 4월 03일 목요일				(5주 1일)
+// 중간고사(30)	- 4월 24일 목요일 (8주 1일)
+// 과제설명(30)	- 4월 10일 목요일 (6주 1일)
+//-----------------------------------------------------------
+// Callable types - 호출가능한 타입 ==> 모든 호출가능타입을 대표하는 function
+//-----------------------------------------------------------
+
+#include <iostream>
+#include <array>
+#include <algorithm>
+#include "save.h"
+
+using namespace std;
+
+
+int main()
+{
+	array<int, 10> a{ 1,3,5,7,9,2,4,6,8,10 };
+
+	//[문제] 오름차순으로 정렬하고 출력하라.
+
+	class Dog {
+	public:
+		bool operator()(int a, int b) const {
+			return a < b;
+		}
+	};
+
+	Dog dog;
+	sort(a.begin(), a.end(), dog);
+
+	for (int num : a) {
+		cout << num << ' ';
+	}
+	cout << endl;
+
+	save("메인.cpp");
+}
+
+==========================================
+저장한 시간: 2025-04-03 오후 7:02:49 목요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 4월 03일 목요일				(5주 1일)
+// 중간고사(30)	- 4월 24일 목요일 (8주 1일)
+// 과제설명(30)	- 4월 10일 목요일 (6주 1일)
+//-----------------------------------------------------------
+// Callable types - 호출가능한 타입 ==> 모든 호출가능타입을 대표하는 function
+//-----------------------------------------------------------
+
+#include <iostream>
+#include <random>
+#include <fstream>
+#include "save.h"
+
+using namespace std;
+
+// [상황] Dog객체 10만개를 파일 "Dog 10만마리"에 저장한다.
+// 파일은 ofstream out( "Dog 10만마리" );
+// Dog 타입의 객체 dog를 out << dog; 로 저장하였다.
+
+default_random_engine dre;
+uniform_int_distribution uid;
+uniform_int_distribution uidLen{ 3,59 };
+uniform_int_distribution<int> uidName{ 'a','z' };
+
+class Dog {
+public:
+	Dog() {
+		num = uid(dre);
+		int len = uidLen(dre);
+		for (int i = 0; i < len; ++i) {
+			name += uidName(dre);
+		}
+	}
+private:
+	size_t num;		// 랜덤 int 값
+	string name;	// [3,60) 까지의 랜덤 소문자로만 구성
+
+	friend ostream& operator<<(ostream& os, const Dog& dog) {
+		return os << dog.num << " " << dog.name << " ";
+	}
+};
+
+int main(){
+
+	ofstream out{ "Dog 십만마리" };
+
+	for (int i = 0; i < 10'0000; ++i) {
+		Dog dog;
+		out << dog << endl;
+	}
+
+	save("메인.cpp");
+}
+
+==========================================
+저장한 시간: 2025-04-03 오후 7:07:07 목요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 4월 03일 목요일				(5주 1일)
+// 중간고사(30)	- 4월 24일 목요일 (8주 1일)
+// 과제설명(30)	- 4월 10일 목요일 (6주 1일)
+//-----------------------------------------------------------
+// Callable types - 호출가능한 타입 ==> 모든 호출가능타입을 대표하는 function
+//-----------------------------------------------------------
+
+#include <iostream>
+#include <fstream>
+#include "save.h"
+
+using namespace std;
+
+// [상황] e-class에서 다운받은 "Dog 십만마리"에는
+// 정확하게 Dog객체 10만개가 저장되어 있다.
+// 파일은
+//			ofstream out( "Dog 십만마리" );
+// Dog 타입의 객체 dog를
+//			out << dog;
+// 로 저장하였다.
+
+class Dog {
+private:
+	size_t num;		// 랜덤 int 값
+	string name;	// [3,60) 까지의 랜덤 소문자로만 구성
+
+	friend ostream& operator<<(ostream& os, const Dog& dog) {
+		return os << dog.num << " " << dog.name << " ";
+	}
+};
+
+// [문제] 파일에 저장된 10만개의 Dog객체를 모두 읽어 메모리에 저장하라.
+// 마지막 객체의 정보를 화면에 출력하고 출력된 내용을 답지에도 적어라.
+// 메모리에 있는 Dog 객체를 name 길이기준 오름차순으로 정렬하라.
+// 정렬한 마지막 객체의 정보를 화면에 출력하고 답지에도 적어라.
+
+int main(){
+
+	
+	save("메인.cpp");
+}
+
+==========================================
+저장한 시간: 2025-04-07 오후 6:11:15 월요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 4월 07일 월요일				(5주 2일)
+// 중간고사(30)	- 4월 24일 목요일 (8주 1일)
+// 과제설명(30)	- 4월 10일 목요일 (6주 1일)
+//-----------------------------------------------------------
+// Callable types - 호출가능한 타입 ==> 모든 호출가능타입을 대표하는 function
+//-----------------------------------------------------------
+
+#include <iostream>
+#include <string>
+#include <fstream>
+#include <array>
+#include <algorithm>
+#include <print>
+#include "save.h"
+
+using namespace std;
+
+// [상황] e-class에서 다운받은 "Dog 십만마리"에는
+// 정확하게 Dog객체 10만개가 저장되어 있다.
+// 파일은
+//			ofstream out( "Dog 십만마리" );
+// Dog 타입의 객체 dog를
+//			out << dog;
+// 로 저장하였다.
+
+class Dog {
+private:
+	size_t num;		// 랜덤 int 값
+	string name;	// [3,60) 까지의 랜덤 소문자로만 구성
+
+	friend ostream& operator<<(ostream& os, const Dog& dog) {
+		return os << dog.num << " " << dog.name << " ";
+	}
+
+	friend istream& operator>>(istream& is, Dog& dog) {
+		return is >> dog.num >> dog.name;
+	}
+
+public:
+	bool operator<(const Dog& rhs) const {
+		return this->name.length() < rhs.name.length();
+	}
+
+	void show() const {
+		print("{:12} - {}\n", num, name);
+	}
+};
+
+// [문제] 파일에 저장된 10만개의 Dog객체를 모두 읽어 메모리에 저장하라.
+// 마지막 객체의 정보를 화면에 출력하고 출력된 내용을 답지에도 적어라.
+// 메모리에 있는 Dog 객체를 name 길이기준 오름차순으로 정렬하라.
+// 정렬한 마지막 객체의 정보를 화면에 출력하고 답지에도 적어라.
+
+array<Dog, 10'0000> dogs;
+
+int main(){
+	ifstream in{ "Dog 십만마리" };
+	if (not in) return 2021182009;
+
+	for (Dog& dog : dogs) {
+		in >> dog;
+	}
+
+	cout << "마지막 객체 : ";
+	dogs.back().show();
+
+	cout << endl << "===정렬===" << endl;
+
+
+	// sort는 기본 연산자로 < 를 사용한다. [상위 버전에서는 less<>{} 를 사용한다?]
+	// 따라서 Dog < Dog가 가능하다면 아무 문제가 없다.
+	sort(dogs.begin(), dogs.end());
+
+	for (const Dog& dog : dogs) {
+		dog.show();
+	}
+
+	cout << "마지막 객체 : ";
+	dogs.back().show();
+
+	save("메인.cpp");
+}
+
+==========================================
+저장한 시간: 2025-04-07 오후 6:38:13 월요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 4월 07일 월요일				(5주 2일)
+// 중간고사(30)	- 4월 24일 목요일 (8주 1일)
+// 과제설명(30)	- 4월 10일 목요일 (6주 1일)
+//-----------------------------------------------------------
+// class STRING 작성시작 - std::string과 유사한 동작을 한다.
+//-----------------------------------------------------------
+
+// 절차적 프로그래밍
+// OOPL(객체지향언어) - 특정 자료형만을 위한 코딩, 객체들과의 상호 동작으로 문제 해결, 역할 / 책임 / 관계를 가지는 객체 => virtual -> 다형성
+// Generic PL - 자료형과 관계없는 코딩 (함수 -> 알고리즘, 클래스 -> 자료구조) => template
+// Meta programming
+// Functional programming
+
+#include <iostream>
+#include "save.h"
+
+using namespace std;
+
+int main(){
+
+	save("메인.cpp");
+}
+
+==========================================
+저장한 시간: 2025-04-07 오후 7:04:45 월요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 4월 07일 월요일				(5주 2일)
+// 중간고사(30)	- 4월 24일 목요일 (8주 1일)
+// 과제설명(30)	- 4월 10일 목요일 (6주 1일)
+//-----------------------------------------------------------
+// class STRING 작성시작 - std::string과 유사한 동작을 한다.
+//-----------------------------------------------------------
+
+#include <iostream>
+#include <string>
+#include <memory>
+#include "save.h"
+
+using namespace std;
+
+class STRING {
+public:
+	STRING(const char* str) : num{ strlen(str) } { // T[N] -> T* collapsing
+		p.release();					// 생성시에 이렇게 할 필요는 없다.
+		p = make_unique<char[]>(num);
+		memcpy(p.get(), str, num);		// DMA(Direct Memory Access)가 가능하다. CPU거치지 않고 초고속 메모리 복사.
+	};
+
+	size_t size() const {
+		return num;
+	};
+
+private:
+	size_t num{};
+	unique_ptr<char[]> p{};
+
+	friend ostream& operator<<(ostream& os, const STRING& s) {
+		for (int i = 0; i < s.num; ++i) {
+			os << s.p[i];
+		}
+		return os;
+	}
+};
+
+
+int main(){
+	STRING s{ "std::string과 유사한 클래스" };
+
+	cout << "s가 관리하는 자원의 바이트 수 : " << s.size() << endl;
+
+	//STRING t = s;
+	cout << s << endl;
+	//cout << t << endl;
+	save("메인.cpp");
+}
