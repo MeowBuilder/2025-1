@@ -47,9 +47,10 @@ STRING::STRING(const char* str)
 
 // 복사생성자와 복사할당연산자 2025. 4. 10
 STRING::STRING(const STRING& other)	// 복사 생성은 할당을 이용해서 코딩하라
-	:id{ ++gid }
+	:num{ other.num }, id{ ++gid }
 {
-	*this = other;
+	p = std::make_unique<char[]>(num);
+	memcpy(p.get(), other.p.get(), num);
 
 	if (관찰)
 	{

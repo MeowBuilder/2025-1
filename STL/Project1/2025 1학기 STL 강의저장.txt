@@ -2189,3 +2189,232 @@ int main(){
 	cout << "v의 원소 주소 - " << v.data() << endl;
 	save("메인.cpp");
 }
+
+==========================================
+저장한 시간: 2025-04-21 오후 6:21:59 월요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 4월 21일 월요일				(7주 2일)
+// 중간고사(30)	- 4월 24일 목요일 (8주 1일)
+//-----------------------------------------------------------
+// STL Container - Containers are objects that store other objects.
+// array - 
+// vector - 
+//-----------------------------------------------------------
+
+#include <iostream>
+#include <vector>
+#include "save.h"
+#include "STRING.h"
+
+using namespace std;
+
+extern bool 관찰;
+
+// [문제] vector는 어떻게 메모리를 관리하는가??
+// size > capacity => 재할당
+
+int main(){
+	vector<int> v;
+	v.reserve(10000);
+
+	int i{ 0 };
+
+	size_t old = v.capacity();
+
+	for (int i = 0; i < 10000; ++i)
+	{
+		v.push_back(i);
+		if (old != v.capacity())
+		{
+			cout << "v가 재할당하지 않고 원소를 담을 수 있는 개수" << v.capacity() << endl;
+			old = v.capacity();
+			
+		}
+	}
+
+
+	save("메인.cpp");
+}
+
+==========================================
+저장한 시간: 2025-04-21 오후 6:30:41 월요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 4월 21일 월요일				(7주 2일)
+// 중간고사(30)	- 4월 24일 목요일 (8주 1일)
+//-----------------------------------------------------------
+// STL Container - Containers are objects that store other objects.
+// array - 
+// vector - 
+//-----------------------------------------------------------
+
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include <string>
+#include "save.h"
+#include "STRING.h"
+
+using namespace std;
+
+extern bool 관찰;
+
+// [문제] 키보드에서 단어를 모두 입력받아 오름차순으로 정렬한 후 출력하라.
+
+int main(){
+	vector<string> v{ istream_iterator<string>{cin},{} };
+
+	sort(v.begin(), v.end());
+
+	for (const auto& data : v)
+	{
+		cout << data << endl;
+	}
+
+	save("메인.cpp");
+}
+
+==========================================
+저장한 시간: 2025-04-21 오후 6:31:32 월요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 4월 21일 월요일				(7주 2일)
+// 중간고사(30)	- 4월 24일 목요일 (8주 1일)
+//-----------------------------------------------------------
+// STL Container - Containers are objects that store other objects.
+// array - 
+// vector - 
+//-----------------------------------------------------------
+
+#include <iostream>
+#include <fstream>
+#include <algorithm>
+#include <vector>
+#include <string>
+#include "save.h"
+#include "STRING.h"
+
+using namespace std;
+
+extern bool 관찰;
+
+// [문제] 키보드에서 단어를 모두 입력받아 오름차순으로 정렬한 후 출력하라.
+
+int main(){
+	ifstream in{ "메인.cpp" };
+
+	vector<string> v{ istream_iterator<string>{in},{} };
+
+	sort(v.begin(), v.end());
+
+	for (const auto& data : v)
+	{
+		cout << data << endl;
+	}
+
+	save("메인.cpp");
+}
+
+==========================================
+저장한 시간: 2025-04-21 오후 6:45:32 월요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 4월 21일 월요일				(7주 2일)
+// 중간고사(30)	- 4월 24일 목요일 (8주 1일)
+//-----------------------------------------------------------
+// STL Container - Containers are objects that store other objects.
+// array - 
+// vector - 
+//-----------------------------------------------------------
+
+#include <iostream>
+#include <vector>
+#include "save.h"
+#include "STRING.h"
+
+using namespace std;
+
+extern bool 관찰;
+
+int main(){
+	관찰 = true;
+
+	vector<STRING> v;
+
+	STRING s{ "12345" };
+	
+	v.push_back( s ); // => const STRING& s (복사생성)
+
+	save("메인.cpp");
+}
+
+==========================================
+저장한 시간: 2025-04-21 오후 6:59:14 월요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 4월 21일 월요일				(7주 2일)
+// 중간고사(30)	- 4월 24일 목요일 (8주 1일)
+//-----------------------------------------------------------
+// STL Container - Containers are objects that store other objects.
+// array - 
+// vector - 
+//-----------------------------------------------------------
+
+#include <iostream>
+#include <vector>
+#include "save.h"
+#include "STRING.h"
+
+using namespace std;
+
+extern bool 관찰;
+
+int main(){
+	관찰 = true;
+
+	vector<STRING> v;
+	
+	v.push_back( STRING { "12345" } ); // => STRING&& (이동생성)
+
+	save("메인.cpp");
+}
+
+==========================================
+저장한 시간: 2025-04-21 오후 7:03:02 월요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 4월 21일 월요일				(7주 2일)
+// 중간고사(30)	- 4월 24일 목요일 (8주 1일)
+//-----------------------------------------------------------
+// STL Container - Containers are objects that store other objects.
+// array - 
+// vector - 
+//-----------------------------------------------------------
+
+#include <iostream>
+#include <vector>
+#include "save.h"
+#include "STRING.h"
+
+using namespace std;
+
+extern bool 관찰;
+
+int main(){
+	관찰 = true;
+
+	vector<STRING> v;
+	
+	v.emplace_back("12345"); // 인자만 전달 => 관리하는 메모리에서 생성자를 호출
+
+	cout << "==========" << endl;
+
+	save("메인.cpp");
+}

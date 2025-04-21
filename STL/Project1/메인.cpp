@@ -16,27 +16,14 @@ using namespace std;
 
 extern bool 관찰;
 
-// [문제] vector는 어떻게 메모리를 관리하는가??
-
 int main(){
-	vector<int> v;
+	관찰 = true;
 
-	int i{ 0 };
+	vector<STRING> v;
+	
+	v.emplace_back("12345"); // 인자만 전달 => 관리하는 메모리에서 생성자를 호출
 
-	size_t old = v.capacity();
-
-	for (int i = 0; i < 10000; ++i)
-	{
-		v.push_back(i);
-		if (old != v.capacity())
-		{
-			cout << "v가 재할당하지 않고 원소를 담을 수 있는 개수" << v.capacity() << endl;
-			old = v.capacity();
-			//v.shrink_to_fit();
-			
-		}
-	}
-
+	cout << "==========" << endl;
 
 	//save("메인.cpp");
 }
