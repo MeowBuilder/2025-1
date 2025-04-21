@@ -1974,3 +1974,218 @@ int main(){
 	
 	save("메인.cpp");
 }
+
+==========================================
+저장한 시간: 2025-04-14 오후 5:41:37 월요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 4월 14일 월요일				(6주 2일)
+// 중간고사(30)	- 4월 24일 목요일 (8주 1일)
+//-----------------------------------------------------------
+// class STRING 작성시작 - STL의 표준 컨테이너가 되도록 발전시킨다.
+//-----------------------------------------------------------
+
+#include <iostream>
+#include <array>
+#include <algorithm>
+#include "save.h"
+#include "STRING.h"
+
+using namespace std;
+
+extern bool 관찰;
+
+int main(){
+	관찰 = true;
+	array<STRING, 5> a{ "1","333","55555","22","4444" };
+
+	//[문제] a의 원소를 길이기준 오름차순으로 정렬하고 화면에 출력하라
+	sort(a.begin(), a.end(), [](const STRING& a, const STRING& b)
+		{
+			return a.size() < b.size();
+		});
+
+	for (const STRING& data : a)
+	{
+		cout << data << " ";
+	}
+	cout << endl;
+
+	save("메인.cpp");
+}
+
+==========================================
+저장한 시간: 2025-04-14 오후 6:27:38 월요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 4월 14일 월요일				(6주 2일)
+// 중간고사(30)	- 4월 24일 목요일 (8주 1일)
+//-----------------------------------------------------------
+// class STRING 작성시작 - STL의 표준 컨테이너가 되도록 발전시킨다.
+//-----------------------------------------------------------
+
+#include <iostream>
+#include <array>
+#include <algorithm>
+#include "save.h"
+#include "STRING.h"
+
+using namespace std;
+
+extern bool 관찰;
+
+int main(){
+	array<STRING, 5> a{ "1","333","55555","22","4444" };
+
+	for (const STRING& data : a)
+	{
+		cout << data << endl;
+	}
+
+	관찰 = true;
+	//[문제] a의 원소를 길이기준 오름차순으로 정렬하고 화면에 출력하라
+	sort(a.begin(), a.end(), [](const STRING& lhs, const STRING& rhs)
+		{
+			return lhs.size() < rhs.size();
+		});
+	관찰 = false;
+
+	for (const STRING& data : a)
+	{
+		cout << data << endl;
+	}
+
+	save("메인.cpp");
+}
+
+==========================================
+저장한 시간: 2025-04-14 오후 6:53:57 월요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 4월 14일 월요일				(6주 2일)
+// 중간고사(30)	- 4월 24일 목요일 (8주 1일)
+//-----------------------------------------------------------
+// class STRING 작성시작 - STL의 표준 컨테이너가 되도록 발전시킨다.
+//-----------------------------------------------------------
+
+#include <iostream>
+#include <fstream>
+#include <array>
+#include <algorithm>
+#include "save.h"
+#include "STRING.h"
+
+using namespace std;
+
+extern bool 관찰;
+
+int main(){
+	// [문제] 메인.cpp에 있는 단어를 처음부터 50개를 메모리(STRING)에 저장하자
+	// 전체 단어를 길이 오름차순으로 정렬하자. 결과를 화면에 출력하라
+	// 제일 첫 단어를 답지에 적어라
+	ifstream in{ "메인.cpp" };
+	if (not in) return 2021182009;
+	
+	array<STRING, 50> words;
+	for (STRING& word : words)
+	{
+		in >> word;
+	}
+
+	sort(words.begin(), words.end(), [](const STRING& lhs, const STRING& rhs)
+		{
+			return lhs.size() < rhs.size();
+		});
+
+	for (const STRING& word : words)
+	{
+		cout << word << endl;
+	}
+
+	save("메인.cpp");
+}
+
+==========================================
+저장한 시간: 2025-04-14 오후 7:02:31 월요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 4월 14일 월요일				(6주 2일)
+// 중간고사(30)	- 4월 24일 목요일 (8주 1일)
+//-----------------------------------------------------------
+// class STRING 작성시작 - STL의 표준 컨테이너가 되도록 발전시킨다.
+//-----------------------------------------------------------
+
+#include <iostream>
+#include <fstream>
+#include <array>
+#include <algorithm>
+#include "save.h"
+#include "STRING.h"
+
+using namespace std;
+
+extern bool 관찰;
+
+int main(){
+	// [문제] 메인.cpp에 있는 단어를 처음부터 50개를 메모리(STRING)에 저장하자
+	// 전체 단어를 길이 오름차순으로 정렬하자. 결과를 화면에 출력하라
+	// 제일 첫 단어를 답지에 적어라
+	ifstream in{ "메인.cpp" };
+	if (not in) return 2021182009;
+	
+	array<STRING, 50> words;
+	for (STRING& word : words)
+	{
+		in >> word;
+	}
+
+	sort(words.begin(), words.end());
+
+	// 다음 시간에 STL이란 무엇인가?
+	for ( auto i = words.rbegin(); i != words.rend(); ++i)
+	{
+		cout << *i << endl;
+	}
+
+	save("메인.cpp");
+}
+
+==========================================
+저장한 시간: 2025-04-17 오후 7:02:18 목요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 4월 17일 목요일				(7주 1일)
+// 중간고사(30)	- 4월 24일 목요일 (8주 1일)
+//-----------------------------------------------------------
+// STL Container - Containers are objects that store other objects.
+//-----------------------------------------------------------
+
+#include <iostream>
+#include <vector>
+#include "save.h"
+#include "STRING.h"
+
+using namespace std;
+
+extern bool 관찰;
+
+int main(){
+	vector<int> v;
+
+	cout << "v의 원소 개수 - " << v.size() << endl;
+	cout << "v의 용량 - " << v.capacity() << endl;
+	cout << "v의 원소 주소 - " << v.data()<< endl;
+
+	v.push_back(1);
+	cout << "원소 1개 추가한 후 vector v의 field" << endl;
+
+	cout << "v의 원소 개수 - " << v.size() << endl;
+	cout << "v의 용량 - " << v.capacity() << endl;
+	cout << "v의 원소 주소 - " << v.data() << endl;
+	save("메인.cpp");
+}

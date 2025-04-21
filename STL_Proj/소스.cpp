@@ -6,6 +6,7 @@
 #include <print>
 #include <algorithm>
 #include <numeric>
+#include <iomanip>
 
 using namespace std;
 
@@ -19,32 +20,37 @@ private:
 	unique_ptr<char[]> p; // free store에 확보한 메모리
 
 public:
-	void write(ostream& os);
-	void read(istream& is);
+	void write(ostream& os)
+	{
+		os.write((char*)this, sizeof(Player));
+		os.write((char*)p.get(), num);
+	}
+
+	void read(istream& is)
+	{
+		is.read((char*)this, sizeof(Player));
+		p.release();
+		p = make_unique<char[]>(num);
+		is.read((char*)p.get(), num);
+	}
+
 	void show() const
 	{
 		println("이름:{:<15}, 아이디:{:<16}, 점수:{:<16}, 자원:{:<16}", name, id, score, num);
 		cout << p.get() << endl;
 	}
+
 	int getScore() const { return score; };
 	int getId() const { return id; };
+	string getName() const { return name; }
+
+	char* getp() { return p.get(); };
+	size_t getnum() { return num; };
 };
 
-void Player::write(ostream& os)
-{
-	os.write((char*)this, sizeof(Player));
-	os.write((char*)p.get(), num);
-}
-
-void Player::read(istream& is)
-{
-	is.read((char*)this, sizeof(Player));
-	p.release();
-	p = make_unique<char[]>(num);
-	is.read((char*)p.get(), num);
-}
-
 array<Player, 250'0000> players;
+
+
 
 int main()
 {
@@ -58,12 +64,12 @@ int main()
 
 	players.back().show();
 
-	auto max_score_player = max_element(players.begin(), players.end(), [](const Player& a, const Player& b)
+	auto maxelement = max_element(players.begin(), players.end(), [](const Player& lhs, const Player& rhs)
 		{
-			return a.getScore() < b.getScore();
+			return lhs.getScore() < rhs.getScore();
 		});
 
-	(*max_score_player).show();
+	(*maxelement).show();
 
 	unsigned long long sum{};
 
@@ -72,7 +78,10 @@ int main()
 			return sum + a.getScore();
 		});
 
-	cout << "평균 점수:" << sum / players.size() << endl; // 소수점 표현해야함
+	long double average = static_cast<long double>(sum) / players.size();
+
+	cout << fixed; //이거로 소수점 표현 고정
+	cout << "평균 점수:" << average << endl; // 소수점 표현해야함
 
 
 	//시간 너무 오래 걸림
@@ -90,4 +99,73 @@ int main()
 	//}
 
 	//cout << cnt;
+
+	ofstream out{ "같은아이디.txt" };
+	size_t countsame{ 0 };
+	bool isFirstSame{ false };
+
+	sort(players.begin(), players.end(), [](const Player& a, const Player& b)
+		{
+			return a.getId() < b.getId();
+		});
+
+
+	for (size_t i = 1; i < players.size(); ++i)
+	{
+		if (players[i].getId() == players[i - 1].getId())
+		{
+			if (!isFirstSame)
+			{
+				out << "이름 :" << players[i - 1].getName() << ", ID :" << players[i - 1].getId();
+				++countsame;
+				isFirstSame = true;
+			}
+			out << " / " << "이름 :" << players[i].getName() << ", ID :" << players[i].getId();
+			++countsame;
+		}
+		else
+		{
+			if (isFirstSame) out << endl;
+			isFirstSame = false;
+		}
+	}
+
+	cout << "같은 id를 가진 객체 수: " << countsame << '\n';
+
+	size_t count10A{ 0 };
+
+	for (Player& data : players)
+	{
+		sort(data.getp(), data.getp() + data.getnum());
+
+		size_t acount = count(data.getp(), data.getp() + data.getnum(), 'a');
+		if (acount >= 10)
+		{
+			++count10A;
+		}
+	}
+
+	cout << "a가 10글자 이상인 객체 수: " << count10A << '\n';
+
+	size_t inputID{};
+	while (true)
+	{
+		cout << "====================" << endl << "ID를 입력하세요. : ";
+		if (!(cin >> inputID))
+		{
+			cin.clear(); // 에러플래그 지우기
+			cin.ignore(100, '\n'); // 입력버퍼 100개 삭제
+			cout << "ID입력이 올바르지 않습니다." << endl;
+			continue;
+		}
+
+		sort(players.begin(), players.end(), [](const Player& lhs, const Player& rhs)
+			{
+				return lhs.getId() < rhs.getId();
+			});
+
+		for (const Player& data : players)
+		{
+		}
+	}
 }
