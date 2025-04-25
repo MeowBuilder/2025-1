@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <numeric>
 #include <iomanip>
+#include <set>
 
 using namespace std;
 
@@ -20,6 +21,11 @@ private:
 	unique_ptr<char[]> p; // free store에 확보한 메모리
 
 public:
+	Player() = default;
+	Player(size_t _id) : id(_id) {}
+	Player(string _name) : name(std::move(_name)) {}
+	Player(int _score) : score(_score) {}
+
 	void write(ostream& os)
 	{
 		os.write((char*)this, sizeof(Player));
@@ -37,7 +43,8 @@ public:
 	void show() const
 	{
 		println("이름:{:<15}, 아이디:{:<16}, 점수:{:<16}, 자원:{:<16}", name, id, score, num);
-		cout << p.get() << endl;
+		cout.write(p.get(), num); // num개만 출력 -> '\0'이 없어서 생기는 문제 해결
+		cout << endl;
 	}
 
 	int getScore() const { return score; };
@@ -49,8 +56,6 @@ public:
 };
 
 array<Player, 250'0000> players;
-
-
 
 int main()
 {
@@ -147,25 +152,118 @@ int main()
 
 	cout << "a가 10글자 이상인 객체 수: " << count10A << '\n';
 
+	players[159].show();
+
 	size_t inputID{};
 	while (true)
 	{
 		cout << "====================" << endl << "ID를 입력하세요. : ";
+		size_t inputID;
 		if (!(cin >> inputID))
 		{
-			cin.clear(); // 에러플래그 지우기
-			cin.ignore(100, '\n'); // 입력버퍼 100개 삭제
+			cin.clear();
+			cin.ignore(100, '\n');
 			cout << "ID입력이 올바르지 않습니다." << endl;
 			continue;
 		}
 
-		sort(players.begin(), players.end(), [](const Player& lhs, const Player& rhs)
+		// ID 기준 정렬
+		sort(players.begin(), players.end(), [](const Player& a, const Player& b)
 			{
-				return lhs.getId() < rhs.getId();
+				return a.getId() < b.getId();
 			});
 
-		for (const Player& data : players)
+		Player keyID(inputID);
+		auto range_id = equal_range(players.begin(), players.end(), keyID,
+			[](const Player& a, const Player& b)
+			{
+				return a.getId() < b.getId();
+			});
+
+		if (range_id.first == range_id.second)
 		{
+			cout << "해당 ID를 가진 Player가 존재하지 않습니다.\n";
+			continue;
+		}
+
+		// 동일 ID 가진 Player 출력
+		cout << "\n[ID 기준 출력]" << endl;
+		if (range_id.first != players.begin())
+			prev(range_id.first)->show();
+
+		for (auto it = range_id.first; it != range_id.second; ++it)
+			it->show();
+
+		if (range_id.second != players.end())
+			range_id.second->show();
+
+		// name/score 기준 비교용 값 저장 (중복 제거 위해 set 사용)
+		set<string> namesToFind;
+		set<int> scoresToFind;
+
+		for (auto it = range_id.first; it != range_id.second; ++it)
+		{
+			namesToFind.insert(it->getName());
+			scoresToFind.insert(it->getScore());
+		}
+
+		// 이름 기준 정렬
+		sort(players.begin(), players.end(), [](const Player& a, const Player& b)
+			{
+				return a.getName() < b.getName();
+			});
+
+		cout << "\n[Name 기준 출력]" << endl;
+		for (const string& targetName : namesToFind)
+		{
+			Player keyName(targetName);
+
+			auto range_name = equal_range(players.begin(), players.end(), keyName,
+				[](const Player& a, const Player& b)
+				{
+					return a.getName() < b.getName();
+				});
+
+			if (range_name.first != players.begin())
+				prev(range_name.first)->show();
+
+			if (range_name.first != range_name.second)
+				range_name.first->show();
+
+			if (range_name.second != players.end())
+				range_name.second->show();
+
+			cout << "----" << endl;
+		}
+
+		// 점수 기준 정렬
+		sort(players.begin(), players.end(), [](const Player& a, const Player& b)
+			{
+				return a.getScore() < b.getScore();
+			});
+
+		cout << "\n[Score 기준 출력]" << endl;
+		for (int targetScore : scoresToFind)
+		{
+			Player keyScore(targetScore);
+
+			auto range_score = equal_range(players.begin(), players.end(), keyScore,
+				[](const Player& a, const Player& b)
+				{
+					return a.getScore() < b.getScore();
+				});
+
+			if (range_score.first != players.begin())
+				prev(range_score.first)->show();
+
+			if (range_score.first != range_score.second)
+				range_score.first->show();
+
+			if (range_score.second != players.end())
+				range_score.second->show();
+
+			cout << "----" << endl;
 		}
 	}
+
 }
