@@ -3,6 +3,7 @@
 //
 // 2025. 4. 10 - 시작
 // 2025. 4. 14 - 이동의미론(move semantics) 구현
+// 2025. 5. 1 - operator==
 //-------------------------------------------------------------------------------------------------
 #pragma once
 #include <iostream>
@@ -26,6 +27,9 @@ public:
 	// 기본정렬을 위한 < 2025. 4. 14
 	bool operator<(const STRING&) const;
 
+	// 같은 객체인지 비교 == - 2025. 5. 1 
+	bool operator==(const STRING&) const;
+
 	size_t size() const;
 
 private:
@@ -37,6 +41,7 @@ private:
 	friend std::ostream& operator<<(std::ostream&, const STRING&);
 
 	friend std::istream& operator>>(std::istream&, STRING&);	// 2025. 4. 14
-	
+
+
 	static size_t gid;		// 2025. 4. 10 고유번호 생성
 };

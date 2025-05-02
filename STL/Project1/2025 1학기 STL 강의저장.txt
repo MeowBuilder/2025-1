@@ -2465,3 +2465,288 @@ int main(){
 	}
 
 }
+
+==========================================
+저장한 시간: 2025-05-01 오후 5:56:57 목요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 5월 01일 목요일				(9주 1일)
+// 2025.05.05 -> 추후 보강 (6/19) <- 종강
+//-----------------------------------------------------------
+// STL Container - Containers are objects that store other objects.
+// array - 
+// vector - 
+// STL의 알고리즘 1.수정X 2.수정O 3.정렬
+//-----------------------------------------------------------
+
+#include <iostream>
+#include <vector>
+#include <array>
+#include "save.h"
+#include "STRING.h"
+
+using namespace std;
+
+extern bool 관찰;
+
+int main(){	
+	vector<int> v{ 1,2,3,4,5 };
+
+	// [문제] v에서 3을 제거하라
+
+	//vector<int>::iterator NewEnd = remove(v.begin(), v.end(), 3); 원형
+	auto NewEnd = remove(v.begin(), v.end(), 3);
+
+	v.erase(NewEnd, v.end());
+
+	for (int i = 0; i < v.size(); ++i)
+	{
+		cout << v[i] << " ";
+	}
+	cout << endl;
+
+	save("메인.cpp");
+}
+
+==========================================
+저장한 시간: 2025-05-01 오후 5:58:44 목요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 5월 01일 목요일				(9주 1일)
+// 2025.05.05 -> 추후 보강 (6/19) <- 종강
+//-----------------------------------------------------------
+// STL Container - Containers are objects that store other objects.
+// array - 
+// vector - 
+// STL의 알고리즘 1.수정X 2.수정O 3.정렬
+//-----------------------------------------------------------
+
+#include <iostream>
+#include <vector>
+#include <array>
+#include "save.h"
+#include "STRING.h"
+
+using namespace std;
+
+extern bool 관찰;
+
+int main(){	
+	vector<int> v{ 1,2,3,4,5 };
+
+	// [문제] v에서 3을 제거하라
+
+	//vector<int>::iterator NewEnd = remove(v.begin(), v.end(), 3); 원형
+	auto NewEnd = remove(v.begin(), v.end(), 3);
+
+	v.erase(NewEnd, v.end());
+
+	for (int i = 0; i < v.size(); ++i)
+	{
+		cout << v[i] << " ";
+	}
+	cout << endl;
+
+	save("메인.cpp");
+}
+
+==========================================
+저장한 시간: 2025-05-01 오후 6:04:12 목요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 5월 01일 목요일				(9주 1일)
+// 2025.05.05 -> 추후 보강 (6/19) <- 종강
+//-----------------------------------------------------------
+// STL Container - Containers are objects that store other objects.
+// array - 
+// vector - 
+// STL의 알고리즘 1.수정X 2.수정O 3.정렬
+//-----------------------------------------------------------
+
+#include <iostream>
+#include <vector>
+#include <array>
+#include "save.h"
+#include "STRING.h"
+
+using namespace std;
+
+extern bool 관찰;
+
+int main(){	
+	vector<int> v{ 1,2,3,4,5 };
+
+	// [문제] v에서 3을 제거하라
+
+	//vector<int>::iterator NewEnd = remove(v.begin(), v.end(), 3); 원형
+
+	// erase-remove idiom
+	//v.erase(remove(v.begin(), v.end(), 3), v.end());
+	// C++20
+	erase(v, 3); // syntactic sugar erase-remove idiom이 그대로 실행됨
+
+	for (int i = 0; i < v.size(); ++i)
+	{
+		cout << v[i] << " ";
+	}
+	cout << endl;
+
+	save("메인.cpp");
+}
+
+==========================================
+저장한 시간: 2025-05-01 오후 6:33:03 목요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 5월 01일 목요일				(9주 1일)
+// 2025.05.05 -> 추후 보강 (6/19) <- 종강
+//-----------------------------------------------------------
+// STL Container - Containers are objects that store other objects.
+// array - 
+// vector - 
+// STL의 알고리즘 1.수정X 2.수정O 3.정렬
+//-----------------------------------------------------------
+
+#include <iostream>
+#include <vector>
+#include <array>
+#include "save.h"
+#include "STRING.h"
+
+using namespace std;
+
+extern bool 관찰;
+
+int main(){	
+	vector<STRING> v{ "1","22","333","4444","55555" };
+
+	// [문제] v에서 3을 제거하라
+	관찰 = true;
+	erase(v, "333");
+	관찰 = false;
+
+	for (const STRING& s : v)
+	{
+		cout << s << endl;
+	}
+
+	save("메인.cpp");
+}
+
+==========================================
+저장한 시간: 2025-05-01 오후 6:50:32 목요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 5월 01일 목요일				(9주 1일)
+// 2025.05.05 -> 추후 보강 (6/19) <- 종강
+//-----------------------------------------------------------
+// STL Container - Containers are objects that store other objects.
+// array - 
+// vector - 
+// STL의 알고리즘 1.수정X 2.수정O 3.정렬
+//-----------------------------------------------------------
+
+#include <iostream>
+#include <vector>
+#include <array>
+#include <list>
+#include "save.h"
+#include "STRING.h"
+
+using namespace std;
+
+extern bool 관찰;
+
+int main(){	
+	list<STRING> v{ "1","22","333","4444","55555" };
+
+	// [문제] v에서 3을 제거하라
+	관찰 = true;
+	v.remove("333");
+	//erase(v, "333");	이 코드가 물론 실행되지만 비효율적 / list는 더 효율적으로 삭제 가능
+	관찰 = false;
+
+	for (const STRING& s : v)
+	{
+		cout << s << endl;
+	}
+
+	save("메인.cpp");
+}
+
+==========================================
+저장한 시간: 2025-05-01 오후 6:53:04 목요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 5월 01일 목요일				(9주 1일)
+// 2025.05.05 -> 추후 보강 (6/19) <- 종강
+//-----------------------------------------------------------
+// STL Container - Containers are objects that store other objects.
+// array - 
+// vector - 
+// STL의 알고리즘 1.수정X 2.수정O 3.정렬
+//-----------------------------------------------------------
+
+#include <iostream>
+#include <vector>
+#include <array>
+#include <list>
+#include "save.h"
+#include "STRING.h"
+
+using namespace std;
+
+extern bool 관찰;
+
+int main(){	
+	list<STRING> v{ "1","22","333","4444","55555" };
+
+	STRING t{ "333" };
+	// [문제] v에서 3을 제거하라
+	관찰 = true;
+	v.remove(t);
+	//erase(v, "333");	이 코드가 물론 실행되지만 비효율적 / list는 더 효율적으로 삭제 가능
+	관찰 = false;
+
+	for (const STRING& s : v)
+	{
+		cout << s << endl;
+	}
+
+	save("메인.cpp");
+}
+
+==========================================
+저장한 시간: 2025-05-01 오후 7:01:42 목요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 5월 08일 목요일				(9주 2일)
+// 2025.05.05 -> 추후 보강 (6/19) <- 종강
+//-----------------------------------------------------------
+// STL Container - Containers are objects that store other objects.
+// array<T,N> - 유일하게 크기가 고정
+// vector<T> - random access가 가능(=> [] 연산자 제공), O(1)(상수시간) access, O(1) push_back()
+// deque<T> - random access, []연산자, O(1) access, O(1) push_front(), push_back()
+// STL의 알고리즘 1.수정X 2.수정O 3.정렬
+//-----------------------------------------------------------
+
+#include <iostream>
+#include <deque>
+#include "save.h"
+#include "STRING.h"
+
+using namespace std;
+
+extern bool 관찰;
+
+int main(){	
+	deque<int> deq;
+	save("메인.cpp");
+}
