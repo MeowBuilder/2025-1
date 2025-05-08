@@ -12,8 +12,10 @@
 //-----------------------------------------------------------
 
 #include <iostream>
+#include <fstream>
+#include <algorithm>
 #include <vector>
-#include <deque>
+#include <list>
 #include "save.h"
 #include "STRING.h"
 
@@ -21,27 +23,33 @@ using namespace std;
 
 extern bool 관찰;
 
-class Test
-{
-	char x[1'000'000];
-};
-
 int main(){	
+	//save("메인.cpp");
+
+	ifstream in{ "메인.cpp" };
+	if (not in)
+		return 2021182009;
+
+	list<STRING> words{ istream_iterator<STRING>{in},{} };
+
+	// [문제] 사용자가 입력한 단어가 리스트에 있는 지 알려주자.
+	// 단어가 없으면 없다라고 출력하고 있으면 리스트의 몇 번째 단어인지 출력하라.
+
+	while (true)
 	{
-		vector<Test> vec;
-		while (true) {
-			try
-			{
-				vec.emplace_back();
-			}
-			catch (const std::exception& e)
-			{
-				cout << e.what() << endl;
-				cout << "최대 개수 - " << vec.size() << endl;
-				break;
-			}
+		cout << "찾을 단어는? ";
+		STRING 단어;
+		cin >> 단어;
+
+		auto find_word = find(words.begin(), words.end(), 단어);
+		if (find_word == words.end())
+		{
+			cout << "없음" << endl;
+		}
+		else
+		{
+			cout << distance(words.begin(), find_word) << endl;
 		}
 	}
 
-	//save("메인.cpp");
 }
