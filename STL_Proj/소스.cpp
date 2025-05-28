@@ -5,9 +5,10 @@
 #include <array>
 #include <print>
 #include <algorithm>
-#include <numeric>
-#include <iomanip>
-#include <set>
+
+//#include <numeric>
+//#include <set>
+//#include <chrono>
 
 using namespace std;
 
@@ -21,10 +22,7 @@ private:
 	unique_ptr<char[]> p; // free store에 확보한 메모리
 
 public:
-	Player() = default;
-	Player(size_t _id) : id(_id) {}
-	Player(string _name) : name(std::move(_name)) {}
-	Player(int _score) : score(_score) {}
+	Player() {};
 
 	void write(ostream& os)
 	{
@@ -57,8 +55,13 @@ public:
 
 array<Player, 250'0000> players;
 
+array<Player*, 250'0000> playersById;
+array<Player*, 250'0000> playersByName;
+array<Player*, 250'0000> playersByScore;
+
 int main()
 {
+	// 1번
 	ifstream in{ "2025 STL 과제 파일 - 2021182009",ios::binary };
 	if (not in) return 2021182009;
 
@@ -67,28 +70,69 @@ int main()
 		data.read(in);
 	}
 
+	cout << "==========1번==========" << endl;
 	players.back().show();
 
-	auto maxelement = max_element(players.begin(), players.end(), [](const Player& lhs, const Player& rhs)
-		{
-			return lhs.getScore() < rhs.getScore();
-		});
 
-	(*maxelement).show();
 
-	unsigned long long sum{};
+	// 2번 ==============================
+	//{
+	//	auto start = chrono::high_resolution_clock::now();
 
-	sum = accumulate(players.begin(), players.end(), 0LL, [](unsigned long long sum, const Player& a)
-		{
-			return sum + a.getScore();
-		});
+	//	auto maxelement = max_element(players.begin(), players.end(), [](const Player& lhs, const Player& rhs)
+	//		{
+	//			return lhs.getScore() < rhs.getScore();
+	//		});
 
-	long double average = static_cast<long double>(sum) / players.size();
+	//	(*maxelement).show();
 
-	cout << fixed; //이거로 소수점 표현 고정
+	//	double sum{};
+
+	//	sum = accumulate(players.begin(), players.end(), 0.0, [](double sum, const Player& a)
+	//		{
+	//			return sum + a.getScore();
+	//		});
+
+	//	double average = sum / players.size();
+
+	//	auto end = chrono::high_resolution_clock::now();
+	//	auto duration = chrono::duration_cast<chrono::milliseconds>(end - start);
+	//	cout << "실행 시간: " << duration.count() << "ms\n";
+
+	//	cout << fixed; // 소수점 표현 고정
+	//	cout << "평균 점수:" << average << endl; // 소수점 표현해야함
+	//}
+
+	
+	//auto start = chrono::high_resolution_clock::now();
+
+	double sum = 0.0;
+	const Player* maxPlayer = &players[0];
+
+	for (const Player& p : players)
+	{
+		sum += p.getScore();
+		if (p.getScore() > maxPlayer->getScore())
+			maxPlayer = &p;
+	}
+
+	double average = sum / players.size();
+
+	//auto end = chrono::high_resolution_clock::now();
+	//auto duration = chrono::duration_cast<chrono::milliseconds>(end - start);
+	//cout << "실행 시간: " << duration.count() << "ms\n";
+
+	cout << "==========2번==========" << endl;
+	maxPlayer->show();
+
+	cout << fixed; // 소수점 표현 고정
 	cout << "평균 점수:" << average << endl; // 소수점 표현해야함
 
 
+	
+
+
+	// 3번 ==============================
 	//시간 너무 오래 걸림
 	//size_t cnt{};
 
@@ -135,8 +179,44 @@ int main()
 		}
 	}
 
+	cout << "==========3번==========" << endl;
 	cout << "같은 id를 가진 객체 수: " << countsame << '\n';
 
+
+
+	// 4번 ==============================
+	//{
+	//	auto start = chrono::high_resolution_clock::now();
+	//	size_t count10A{ 0 };
+
+	//	for (Player& data : players)
+	//	{
+	//		sort(data.getp(), data.getp() + data.getnum());
+
+	//		size_t acount{ 0 };
+
+	//		for (size_t i = 0; i < data.getnum(); ++i)
+	//		{
+	//			if (data.getp()[i] == 'a')
+	//			{
+	//				++acount;
+	//			}
+	//			else break;
+	//		}
+
+	//		if (acount >= 10)
+	//		{
+	//			++count10A;
+	//		}
+	//	}
+	//	auto end = chrono::high_resolution_clock::now();
+	//	auto duration = chrono::duration_cast<chrono::milliseconds>(end - start);
+	//	cout << "실행 시간: " << duration.count() << "ms\n";
+	//	cout << "a가 10글자 이상인 객체 수: " << count10A << '\n';
+	//}
+	
+	
+	//auto start = chrono::high_resolution_clock::now();
 	size_t count10A{ 0 };
 
 	for (Player& data : players)
@@ -144,17 +224,42 @@ int main()
 		sort(data.getp(), data.getp() + data.getnum());
 
 		size_t acount = count(data.getp(), data.getp() + data.getnum(), 'a');
+
 		if (acount >= 10)
 		{
 			++count10A;
 		}
 	}
+	//auto end = chrono::high_resolution_clock::now();
 
+	//auto duration = chrono::duration_cast<chrono::milliseconds>(end - start);
+	//cout << "실행 시간: " << duration.count() << "ms\n";
+	
+	cout << "==========4번==========" << endl;
 	cout << "a가 10글자 이상인 객체 수: " << count10A << '\n';
+	
+	
+	// 5번 ==============================
 
-	players[159].show();
+	for (size_t i = 0; i < players.size(); ++i) {
+		playersById[i] = &players[i];
+		playersByName[i] = &players[i];
+		playersByScore[i] = &players[i];
+	}
 
-	size_t inputID{};
+	sort(playersById.begin(), playersById.end(), [](const Player* a, const Player* b) {
+		return a->getId() < b->getId();
+		});
+	sort(playersByName.begin(), playersByName.end(), [](const Player* a, const Player* b) {
+		return a->getName() < b->getName();
+		});
+	sort(playersByScore.begin(), playersByScore.end(), [](const Player* a, const Player* b) {
+		return a->getScore() < b->getScore();
+		});
+
+
+	cout << "==========5번==========" << endl;
+
 	while (true)
 	{
 		cout << "====================" << endl << "ID를 입력하세요. : ";
@@ -167,103 +272,196 @@ int main()
 			continue;
 		}
 
-		// ID 기준 정렬
-		sort(players.begin(), players.end(), [](const Player& a, const Player& b)
-			{
-				return a.getId() < b.getId();
+		// ID 기준 탐색
+		auto start = lower_bound(playersById.begin(), playersById.end(), inputID, [](const Player* a, size_t id) {
+				return a->getId() < id;
 			});
 
-		Player keyID(inputID);
-		auto range_id = equal_range(players.begin(), players.end(), keyID,
-			[](const Player& a, const Player& b)
-			{
-				return a.getId() < b.getId();
-			});
-
-		if (range_id.first == range_id.second)
-		{
+		if (start == playersById.end() || (*start)->getId() != inputID) {
 			cout << "해당 ID를 가진 Player가 존재하지 않습니다.\n";
 			continue;
 		}
 
-		// 동일 ID 가진 Player 출력
-		cout << "\n[ID 기준 출력]" << endl;
-		if (range_id.first != players.begin())
-			prev(range_id.first)->show();
+		auto end = start;
+		while (end != playersById.end() && (*end)->getId() == inputID)
+			++end;
 
-		for (auto it = range_id.first; it != range_id.second; ++it)
-			it->show();
+		// ID 기준 출력
+		cout << "\n[ID 기준 출력]\n";
+		if (start != playersById.begin())
+			(*prev(start))->show();
 
-		if (range_id.second != players.end())
-			range_id.second->show();
+		for (auto ptr = start; ptr != end; ++ptr)
+			(*ptr)->show();
 
-		// name/score 기준 비교용 값 저장 (중복 제거 위해 set 사용)
-		set<string> namesToFind;
-		set<int> scoresToFind;
+		if (end != playersById.end())
+			(*end)->show();
 
-		for (auto it = range_id.first; it != range_id.second; ++it)
+		// 이름 기준 출력
+		cout << "\n[Name 기준 출력]\n";
+		for (auto ptr = start; ptr != end; ++ptr)
 		{
-			namesToFind.insert(it->getName());
-			scoresToFind.insert(it->getScore());
-		}
+			string targetName = (*ptr)->getName();
 
-		// 이름 기준 정렬
-		sort(players.begin(), players.end(), [](const Player& a, const Player& b)
-			{
-				return a.getName() < b.getName();
-			});
-
-		cout << "\n[Name 기준 출력]" << endl;
-		for (const string& targetName : namesToFind)
-		{
-			Player keyName(targetName);
-
-			auto range_name = equal_range(players.begin(), players.end(), keyName,
-				[](const Player& a, const Player& b)
-				{
-					return a.getName() < b.getName();
+			auto front = lower_bound(playersByName.begin(), playersByName.end(), targetName, [](const Player* a, const string& val) {
+					return a->getName() < val;
 				});
 
-			if (range_name.first != players.begin())
-				prev(range_name.first)->show();
+			if (front == playersByName.end() || (*front)->getName() != targetName) continue;
 
-			if (range_name.first != range_name.second)
-				range_name.first->show();
+			auto back = front;
+			while ((back + 1) != playersByName.end() && (*(back + 1))->getName() == targetName)
+				++back;
 
-			if (range_name.second != players.end())
-				range_name.second->show();
+			if (front != playersByName.begin())
+				(*(front - 1))->show();
 
-			cout << "----" << endl;
+			(*ptr)->show();
+
+			if ((back + 1) != playersByName.end())
+				(*(back + 1))->show();
+
+			cout << "----\n";
 		}
 
-		// 점수 기준 정렬
-		sort(players.begin(), players.end(), [](const Player& a, const Player& b)
-			{
-				return a.getScore() < b.getScore();
-			});
-
-		cout << "\n[Score 기준 출력]" << endl;
-		for (int targetScore : scoresToFind)
+		// 점수 기준 출력
+		cout << "\n[Score 기준 출력]\n";
+		for (auto ptr = start; ptr != end; ++ptr)
 		{
-			Player keyScore(targetScore);
+			int targetScore = (*ptr)->getScore();
 
-			auto range_score = equal_range(players.begin(), players.end(), keyScore,
-				[](const Player& a, const Player& b)
-				{
-					return a.getScore() < b.getScore();
+			auto front = lower_bound(playersByScore.begin(), playersByScore.end(), targetScore, [](const Player* a, int val) {
+					return a->getScore() < val;
 				});
 
-			if (range_score.first != players.begin())
-				prev(range_score.first)->show();
+			if (front == playersByScore.end() || (*front)->getScore() != targetScore) continue;
 
-			if (range_score.first != range_score.second)
-				range_score.first->show();
+			auto back = front;
+			while ((back + 1) != playersByScore.end() && (*(back + 1))->getScore() == targetScore)
+				++back;
 
-			if (range_score.second != players.end())
-				range_score.second->show();
+			if (front != playersByScore.begin())
+				(*(front - 1))->show();
 
-			cout << "----" << endl;
+			(*ptr)->show();
+
+			if ((back + 1) != playersByScore.end())
+				(*(back + 1))->show();
+
+			cout << "----\n";
 		}
 	}
+
+	//size_t inputID{};
+	//while (true)
+	//{
+	//	cout << "====================" << endl << "ID를 입력하세요. : ";
+	//	size_t inputID;
+	//	if (!(cin >> inputID))
+	//	{
+	//		cin.clear();
+	//		cin.ignore(100, '\n');
+	//		cout << "ID입력이 올바르지 않습니다." << endl;
+	//		continue;
+	//	}
+
+	//	// ID 기준 정렬
+	//	sort(players.begin(), players.end(), [](const Player& a, const Player& b)
+	//		{
+	//			return a.getId() < b.getId();
+	//		});
+
+	//	Player keyID(inputID);
+	//	auto range_id = equal_range(players.begin(), players.end(), keyID,
+	//		[](const Player& a, const Player& b)
+	//		{
+	//			return a.getId() < b.getId();
+	//		});
+
+	//	if (range_id.first == range_id.second)
+	//	{
+	//		cout << "해당 ID를 가진 Player가 존재하지 않습니다.\n";
+	//		continue;
+	//	}
+
+	//	// 동일 ID 가진 Player 출력
+	//	cout << "\n[ID 기준 출력]" << endl;
+	//	if (range_id.first != players.begin())
+	//		prev(range_id.first)->show();
+
+	//	for (auto it = range_id.first; it != range_id.second; ++it)
+	//		it->show();
+
+	//	if (range_id.second != players.end())
+	//		range_id.second->show();
+
+	//	// name/score 기준 비교용 값 저장 (중복 제거 위해 set 사용)
+	//	set<string> namesToFind;
+	//	set<int> scoresToFind;
+
+	//	for (auto it = range_id.first; it != range_id.second; ++it)
+	//	{
+	//		namesToFind.insert(it->getName());
+	//		scoresToFind.insert(it->getScore());
+	//	}
+
+	//	// 이름 기준 정렬
+	//	sort(players.begin(), players.end(), [](const Player& a, const Player& b)
+	//		{
+	//			return a.getName() < b.getName();
+	//		});
+
+	//	cout << "\n[Name 기준 출력]" << endl;
+	//	for (const string& targetName : namesToFind)
+	//	{
+	//		Player keyName(targetName);
+
+	//		auto range_name = equal_range(players.begin(), players.end(), keyName,
+	//			[](const Player& a, const Player& b)
+	//			{
+	//				return a.getName() < b.getName();
+	//			});
+
+	//		if (range_name.first != players.begin())
+	//			prev(range_name.first)->show();
+
+	//		if (range_name.first != range_name.second)
+	//			range_name.first->show();
+
+	//		if (range_name.second != players.end())
+	//			range_name.second->show();
+
+	//		cout << "----" << endl;
+	//	}
+
+	//	// 점수 기준 정렬
+	//	sort(players.begin(), players.end(), [](const Player& a, const Player& b)
+	//		{
+	//			return a.getScore() < b.getScore();
+	//		});
+
+	//	cout << "\n[Score 기준 출력]" << endl;
+	//	for (int targetScore : scoresToFind)
+	//	{
+	//		Player keyScore(targetScore);
+
+	//		auto range_score = equal_range(players.begin(), players.end(), keyScore,
+	//			[](const Player& a, const Player& b)
+	//			{
+	//				return a.getScore() < b.getScore();
+	//			});
+
+	//		if (range_score.first != players.begin())
+	//			prev(range_score.first)->show();
+
+	//		if (range_score.first != range_score.second)
+	//			range_score.first->show();
+
+	//		if (range_score.second != players.end())
+	//			range_score.second->show();
+
+	//		cout << "----" << endl;
+	//	}
+	//}
 
 }
