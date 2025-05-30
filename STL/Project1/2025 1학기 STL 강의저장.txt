@@ -3209,3 +3209,1548 @@ int main(){
 
 	save("메인.cpp");
 }
+
+==========================================
+저장한 시간: 2025-05-12 오후 6:52:05 월요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 5월 12일 월요일				(10주 1일)
+// 6/19 목요일 15주 2일 - 기말시험
+//-----------------------------------------------------------
+// STL Container - Containers are objects that store other objects.
+// array<T,N> - 유일하게 크기가 고정
+// vector<T> - random access가 가능(== [] 연산자 제공), O(1)(상수시간) access, O(1) push_back()
+// deque<T> - random access, []연산자, O(1) access, O(1) push_front(), push_back()
+// list<T> - O(1) insert, delete, 자료구조를 활용한 전용함수 제공(remove, sort, splice)
+// STL의 알고리즘 1.수정X 2.수정O 3.정렬
+//-----------------------------------------------------------
+
+#include <iostream>
+#include <fstream>
+#include <algorithm>
+#include <vector>
+#include <list>
+#include "save.h"
+#include "STRING.h"
+
+using namespace std;
+
+extern bool 관찰;
+
+int main(){	
+	save("메인.cpp");
+
+	ifstream in{ "메인.cpp" };
+	if (not in)
+		return 2021182009;
+
+	list<STRING> words{ istream_iterator<STRING>{in},{} };
+
+	// [문제] 사용자가 입력한 단어가 리스트에 있는 지 알려주자.
+	// 단어가 없으면 없다라고 출력하고 있으면 리스트의 몇 번째 단어인지 출력하라.
+
+	while (true)
+	{
+		cout << "찾을 단어는? ";
+		STRING 단어;
+		cin >> 단어;
+
+		auto find_word = find(words.begin(), words.end(), 단어);
+		if (find_word == words.end())
+		{
+			cout << "없음" << endl;
+		}
+		else
+		{
+			cout << distance(words.begin(), find_word) + 1 << endl;
+		}
+	}
+
+}
+
+==========================================
+저장한 시간: 2025-05-12 오후 7:03:17 월요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 5월 12일 월요일				(10주 1일)
+// 6/19 목요일 15주 2일 - 기말시험
+//-----------------------------------------------------------
+// STL Container - Containers are objects that store other objects.
+// array<T,N> - 유일하게 크기가 고정
+// vector<T> - random access가 가능(== [] 연산자 제공), O(1)(상수시간) access, O(1) push_back()
+// deque<T> - random access, []연산자, O(1) access, O(1) push_front(), push_back()
+// list<T> - O(1) insert, delete, 자료구조를 활용한 전용함수 제공(remove, sort, splice)
+// STL의 알고리즘 1.수정X 2.수정O 3.정렬
+//-----------------------------------------------------------
+
+#include <iostream>
+#include <fstream>
+#include <algorithm>
+#include <vector>
+#include <list>
+#include "save.h"
+#include "STRING.h"
+
+using namespace std;
+
+extern bool 관찰;
+
+int main(){	
+	save("메인.cpp");
+
+	ifstream in{ "메인.cpp" };
+	if (not in)
+		return 2021182009;
+
+	list<STRING> words{ istream_iterator<STRING>{in},{} };
+
+	// [문제] 단어들에서 길이가 5인 것들만 화면에 출력하라.
+
+	copy(words.begin(), words.end(), ostream_iterator<STRING>{cout} );
+
+	// 다음시간에 다시 코딩하고 반복자 소개에서 시작
+
+
+}
+
+==========================================
+저장한 시간: 2025-05-15 오후 5:40:13 목요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 5월 15일 목요일				(10주 2일)
+// 6/19 목요일 15주 2일 - 기말시험
+//-----------------------------------------------------------
+// STL Container - Containers are objects that store other objects.
+// array<T,N> - 유일하게 크기가 고정
+// vector<T> - random access가 가능(== [] 연산자 제공), O(1)(상수시간) access, O(1) push_back()
+// deque<T> - random access, []연산자, O(1) access, O(1) push_front(), push_back()
+// list<T> - O(1) insert, delete, 자료구조를 활용한 전용함수 제공(remove, sort, splice)
+// STL의 알고리즘 1.수정X 2.수정O 3.정렬
+//-----------------------------------------------------------
+
+#include <iostream>
+#include <fstream>
+#include <algorithm>
+#include <list>
+#include "save.h"
+#include "STRING.h"
+
+using namespace std;
+
+extern bool 관찰;
+
+int main(){	
+	save("메인.cpp");
+
+	ifstream in{ "메인.cpp" };
+	if (not in)
+		return 2021182009;
+
+	list<STRING> words{ istream_iterator<STRING>{in},{} };
+
+	// [문제] 찾을 단어가 있으면 몇 번째인지 출력하라.
+
+	cout << "찾을 단어 머임? ";
+	STRING find_word;
+	cin >> find_word;
+
+	auto word_place = find(words.begin(), words.end(), find_word);
+	if (word_place == words.end()) cout << "없음 ㅅㄱ" << endl;
+	else cout << distance(words.begin(), word_place) + 1 << "번째임 ㅅㄱ" << endl;
+}
+
+==========================================
+저장한 시간: 2025-05-15 오후 6:33:51 목요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 5월 15일 목요일				(10주 2일)
+// 6/19 목요일 15주 2일 - 기말시험
+//-----------------------------------------------------------
+// STL Container - Containers are objects that store other objects.
+// array<T,N> - 유일하게 크기가 고정
+// vector<T> - random access가 가능(== [] 연산자 제공), O(1)(상수시간) access, O(1) push_back()
+// deque<T> - random access, []연산자, O(1) access, O(1) push_front(), push_back()
+// list<T> - O(1) insert, delete, 자료구조를 활용한 전용함수 제공(remove, sort, splice)
+// forward_list<T> - C스타일의 단일 연결 리스트와 비고해서 공간 혹은 시간상에 오버헤드가 없다. 부가기능이 없기 때문이다.
+// STL의 알고리즘 종류 1.수정X 2.수정O 3.정렬
+//-----------------------------------------------------------
+
+#include <iostream>
+#include "save.h"
+#include "STRING.h"
+
+using namespace std;
+
+extern bool 관찰;
+
+int main(){	
+	save("메인.cpp");
+}
+
+==========================================
+저장한 시간: 2025-05-15 오후 7:04:42 목요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 5월 15일 목요일				(10주 2일)
+// 6/19 목요일 15주 2일 - 기말시험
+//-----------------------------------------------------------
+// 부모 -> 자식 : 특수화(specialization) / 자식 -> 부모 : 일반화(generalization)
+// 반복자 - Iterators are a generalization of pointers that allow a C++ program to work with different data structures in a uniform manner.
+//-----------------------------------------------------------
+
+#include <iostream>
+#include "save.h"
+#include "STRING.h"
+
+using namespace std;
+
+extern bool 관찰;
+
+int main(){	
+	STRING s{ "2025. 5. 15" };
+
+	// [예고] 오시하력출 로꾸거 를s
+
+	for (char c : s)
+	{
+		cout << c << " * ";
+	}
+	cout << endl;
+	save("메인.cpp");
+}
+
+==========================================
+저장한 시간: 2025-05-19 오후 6:26:22 월요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 5월 19일 월요일				(11주 1일)
+// 6/19 목요일 15주 2일 - 기말시험
+//-----------------------------------------------------------
+// 부모 -> 자식 : 특수화(specialization) / 자식 -> 부모 : 일반화(generalization)
+// 반복자 - Iterators are a generalization of pointers that allow a C++ program to work with different data structures in a uniform manner.
+// 역방향 반복자는 반드시 class로만 만들 수 있다.
+//-----------------------------------------------------------
+
+#include <iostream>
+#include <span>
+#include "save.h"
+#include "STRING.h"
+
+using namespace std;
+
+extern bool 관찰;
+
+int main(){	
+
+	STRING s{ "2025. 5. 19" };
+	
+	// [예고] 오시하력출 로꾸거 를s
+	for (auto i = s.rbegin(); i != s.rend(); ++i)
+	{
+		cout << *i << " ";
+	}
+	cout << endl;
+
+	save("메인.cpp");
+}
+
+==========================================
+저장한 시간: 2025-05-22 오후 5:28:00 목요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 5월 22일 목요일				(11주 2일)
+// 6/19 목요일 15주 2일 - 기말시험
+//-----------------------------------------------------------
+// 반복자 - 각 컨테이너가 자기가 관리하는 원소를 처음부터 끝까지 빠짐없이
+// 순회할 수 있도록 제공하는 인터페이스이다.
+// 컨테이너에 따라서(자료구조가 서로 다르니까) 반복자로 할 수 있는 일은 서로 다르다.
+//-----------------------------------------------------------
+
+#include <iostream>
+#include <iterator>
+#include "save.h"
+#include "STRING.h"
+
+using namespace std;
+
+// 반복자는 서로 다르다 - 6개의 category
+// [문제] 반복자를 인자로 받아 어떤 종류의 반복자인지 화면에 출력하는 함수 f를 정의하라.
+
+void f(const ostream_iterator<char>& p)
+{
+	cout << typeid(ostream_iterator<char>::iterator_category).name() << endl;
+}
+
+int main(){	
+
+	f(ostream_iterator<char>{cout});
+
+	save("메인.cpp");
+}
+
+==========================================
+저장한 시간: 2025-05-22 오후 5:49:39 목요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 5월 22일 목요일				(11주 2일)
+// 6/19 목요일 15주 2일 - 기말시험
+//-----------------------------------------------------------
+// 반복자 - 각 컨테이너가 자기가 관리하는 원소를 처음부터 끝까지 빠짐없이
+// 순회할 수 있도록 제공하는 인터페이스이다.
+// 컨테이너에 따라서(자료구조가 서로 다르니까) 반복자로 할 수 있는 일은 서로 다르다.
+//-----------------------------------------------------------
+
+#include <iostream>
+#include <iterator>
+#include <forward_list>
+#include <list>
+#include <deque>
+#include <vector>
+#include "save.h"
+#include "STRING.h"
+
+using namespace std;
+
+// 반복자는 서로 다르다 - 6개의 category
+// [문제] 반복자를 인자로 받아 어떤 종류의 반복자인지 화면에 출력하는 함수 f를 정의하라.
+
+template <class 반복자>
+void f(const 반복자& p)
+{
+	cout << typeid(iterator_traits<반복자>::iterator_category).name() << endl;
+}
+
+int main(){	
+
+	f(ostream_iterator<char>{cout});
+	//f(istream_iterator<int>{cin});
+
+	f(forward_list<char>{}.begin());
+	f(list<int>::iterator{});
+
+	deque<STRING> d;
+	f(d.rbegin());
+	f(vector<int>{}.begin());
+
+	// vector와 deque의 반복자는 random_access_iterator_tag
+
+	int* p;
+	f(p);
+
+	save("메인.cpp");
+}
+
+==========================================
+저장한 시간: 2025-05-22 오후 5:56:26 목요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 5월 22일 목요일				(11주 2일)
+// 6/19 목요일 15주 2일 - 기말시험
+//-----------------------------------------------------------
+// 반복자 - 각 컨테이너가 자기가 관리하는 원소를 처음부터 끝까지 빠짐없이
+// 순회할 수 있도록 제공하는 인터페이스이다.
+// 컨테이너에 따라서(자료구조가 서로 다르니까) 반복자로 할 수 있는 일은 서로 다르다.
+//-----------------------------------------------------------
+
+#include <iostream>
+#include <iterator>
+#include <forward_list>
+#include <list>
+#include <deque>
+#include <vector>
+#include "save.h"
+#include "STRING.h"
+
+using namespace std;
+
+// 반복자는 서로 다르다 - 6개의 category
+// [문제] 반복자를 인자로 받아 어떤 종류의 반복자인지 화면에 출력하는 함수 f를 정의하라.
+
+template <class 반복자>
+void f(const 반복자& p)
+{
+	cout << typeid(iterator_traits<반복자>::iterator_category).name() << endl;
+
+	// 벡터라면
+	cout << typeid(반복자::iterator_concept).name() << endl;
+}
+
+int main(){	
+	// vector의 반복자가 contiguous임을 판단하거나 출력하고 싶다.
+	f(vector<int>{}.begin());
+
+	save("메인.cpp");
+}
+
+==========================================
+저장한 시간: 2025-05-22 오후 5:59:34 목요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 5월 22일 목요일				(11주 2일)
+// 6/19 목요일 15주 2일 - 기말시험
+//-----------------------------------------------------------
+// 반복자 - 각 컨테이너가 자기가 관리하는 원소를 처음부터 끝까지 빠짐없이
+// 순회할 수 있도록 제공하는 인터페이스이다.
+// 컨테이너에 따라서(자료구조가 서로 다르니까) 반복자로 할 수 있는 일은 서로 다르다.
+//-----------------------------------------------------------
+
+#include <iostream>
+#include <iterator>
+#include <forward_list>
+#include <list>
+#include <deque>
+#include <vector>
+#include "save.h"
+#include "STRING.h"
+
+using namespace std;
+
+// 반복자는 서로 다르다 - 6개의 category
+// [문제] 반복자를 인자로 받아 어떤 종류의 반복자인지 화면에 출력하는 함수 f를 정의하라.
+
+template <class 반복자>
+void f(const 반복자& p)
+{
+	cout << typeid(iterator_traits<반복자>::iterator_category).name() << endl;
+
+	/*if constexpr ( 반복자 == vector )
+		cout << typeid(반복자::iterator_concept).name() << endl;*/
+}
+
+int main(){	
+	// vector의 반복자가 contiguous임을 판단하거나 출력하고 싶다.
+	f(deque<int>{}.begin());
+
+	save("메인.cpp");
+}
+
+==========================================
+저장한 시간: 2025-05-22 오후 6:24:51 목요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 5월 22일 목요일				(11주 2일)
+// 6/19 목요일 15주 2일 - 기말시험
+//-----------------------------------------------------------
+// 반복자 - 각 컨테이너가 자기가 관리하는 원소를 처음부터 끝까지 빠짐없이
+// 순회할 수 있도록 제공하는 인터페이스이다.
+// 컨테이너에 따라서(자료구조가 서로 다르니까) 반복자로 할 수 있는 일은 서로 다르다.
+//-----------------------------------------------------------
+
+#include <iostream>
+#include <iterator>
+#include "save.h"
+#include "STRING.h"
+
+using namespace std;
+
+// 반복자는 서로 다르다 - 6개의 category
+// [문제] 반복자를 인자로 받아 어떤 종류의 반복자인지 화면에 출력하는 함수 f를 정의하라.
+
+template <class 반복자>
+void f(const 반복자& p)
+{
+	cout << typeid(iterator_traits<반복자>::iterator_category).name() << endl;
+}
+
+int main(){	
+	STRING s;
+
+	f(s.rbegin());
+
+	save("메인.cpp");
+}
+
+==========================================
+저장한 시간: 2025-05-22 오후 6:30:31 목요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 5월 22일 목요일				(11주 2일)
+// 6/19 목요일 15주 2일 - 기말시험
+//-----------------------------------------------------------
+// 반복자 - 각 컨테이너가 자기가 관리하는 원소를 처음부터 끝까지 빠짐없이
+// 순회할 수 있도록 제공하는 인터페이스이다.
+// 컨테이너에 따라서(자료구조가 서로 다르니까) 반복자로 할 수 있는 일은 서로 다르다.
+//-----------------------------------------------------------
+
+#include <iostream>
+#include <iterator>
+#include "save.h"
+#include "STRING.h"
+
+using namespace std;
+
+// 반복자는 서로 다르다 - 6개의 category
+// [문제] 반복자를 인자로 받아 어떤 종류의 반복자인지 화면에 출력하는 함수 f를 정의하라.
+
+template <class 반복자>
+void f(const 반복자& p)
+{
+	cout << typeid(반복자::iterator_category).name() << endl;
+}
+
+int main(){	
+	STRING s;
+
+	f(s.begin());
+
+	save("메인.cpp");
+}
+
+==========================================
+저장한 시간: 2025-05-26 오후 6:19:04 월요일
+==========================================
+
+//-------------------------------------------------------------------------------------------------
+// STRING.h - STL의 동작을 이해하기 위한 class / std::string과 유사하게 작성
+//
+// 2025. 4. 10 - 시작
+// 2025. 4. 14 - 이동의미론(move semantics) 구현
+// 2025. 5. 1 - operator==
+// 2025. 5. 15 - begin(), end() 제공
+// 2025. 5. 19 - rbegin(), rend() 제공 -> class 아니면 안됨
+// 2025. 5. 22 - 반복자가 질문에 응답하도록 한다.
+// 2025. 5. 22 - begin(), end()가 반복자를 리턴하도록 한다.
+// 2025. 5. 26 - sort가능하도록 필요한 연산자를 모두 코딩
+//				(C++ 연산자 오버로딩을 잘 이해해야 할 수 있다.)
+//-------------------------------------------------------------------------------------------------
+#pragma once
+#include <iostream>
+#include <memory>
+
+// Iterator adaptor - 반복자의 인터페이스를 제공하지만 실제는 다르게 동작
+// 표준반복자가 제공해야할 다섯가지 타입을 제공한다.
+
+
+class STRING_Reverse_Iterator {
+public:
+	using difference_type = std::ptrdiff_t;
+	using value_type = char;
+	using pointer = char*;
+	using reference = char&;
+	using iterator_category = std::random_access_iterator_tag;
+
+public:
+	explicit STRING_Reverse_Iterator(char* p) : p{ p } { }; // explicit -> 자동 형변환 막기
+	
+	// 반복자라면 제공해야할 기본동작이 있다.
+	void operator++(){
+		--p;
+	}
+
+	char operator*() const
+	{
+		return *(p - 1);
+	}
+
+	bool operator==(const STRING_Reverse_Iterator& rhs) const
+	{
+		return p == rhs.p;
+	}
+private:
+	char* p;
+};
+
+class STRING_Iterator
+{
+public:
+	using difference_type = std::ptrdiff_t;
+	using value_type = char;
+	using pointer = char*;
+	using reference = char&;
+	using iterator_category = std::random_access_iterator_tag;
+
+public:
+	// 2025. 5. 26 special 함수인 default ctor를 요구
+	STRING_Iterator() = default;
+
+	STRING_Iterator(char* p) : p{ p } {};
+
+	// 이건 의미를 제대로 코딩해야 한다.
+	// 2025. 5. 26 수정 - 자기 자신을 리턴해야한다.
+	STRING_Iterator& operator++()
+	{
+		++p;
+		return *this;
+	}
+
+	// 2025. 5. 26 수정
+	// 원래는 리턴값이 l-value가 아님 -> &를 리턴하고 const를 제거함
+	char& operator*()
+	{
+		return *p;
+	}
+
+	// cv-qualifier는 오버로딩으로 구분 가능하다.
+	char& operator*() const
+	{
+		return *p;
+	}
+	
+	// <=> 작성 후 주석처리 -> 우주선 연산의 뭔가뭔가로 다시 살림
+	bool operator==(const STRING_Iterator& rhs) const
+	{
+		return p == rhs.p;
+	}
+
+	// sort가 동작하도록 필요 연산자 추가
+	// 2025. 5. 26
+	difference_type operator-(const STRING_Iterator& rhs) const
+	{
+		return p - rhs.p;	// 연산의 결과가 클래스의 불변성(invariants)을 해치나 관찰
+	}
+
+	STRING_Iterator& operator--()
+	{
+		--p;
+		return *this;
+	}
+
+	// 모든 relational operation을 할 수 있게 <=>를 정의해 본다.
+	// <, <=, ==, !=, >=, > ==압축=> <=>
+	auto operator<=>(const STRING_Iterator& rhs) const
+	{
+		return p <=> rhs.p;
+	}
+
+	STRING_Iterator operator+(difference_type n) const
+	{
+		return p + n;
+	}
+
+	STRING_Iterator operator-(difference_type n) const
+	{
+		return p - n;
+	}
+
+private:
+	char* p{}; // = nullptr;
+};
+
+class STRING {
+public:
+	STRING();
+	~STRING();
+	
+	STRING(const char* str);	// 생성자
+
+	// 복사생성자와 복사할당연산자 2025. 4. 10
+	STRING(const STRING&);
+	STRING& operator=(const STRING&);
+
+	// 이동생성자와 이동할당연산자 2025. 4. 14
+	STRING(STRING&&);
+	STRING& operator=(STRING&&);
+
+	// 기본정렬을 위한 < 2025. 4. 14
+	// 사전식정렬하도록 수정 - 2025. 5. 15
+	bool operator<(const STRING&) const;
+
+	// 같은 객체인지 비교 == - 2025. 5. 1 
+	bool operator==(const STRING&) const;
+
+	size_t size() const;
+
+	// 2025. 5. 15
+	STRING_Iterator begin() const;
+	STRING_Iterator end() const;
+
+	// 2025. 5. 19
+	STRING_Reverse_Iterator rbegin() const;
+	STRING_Reverse_Iterator rend() const;
+
+private:
+	size_t num{};
+	std::unique_ptr<char[]> p{};
+
+	size_t id;				// 2025. 4. 10 관찰을 위한 객체 고유번호
+
+	friend std::ostream& operator<<(std::ostream&, const STRING&);
+
+	friend std::istream& operator>>(std::istream&, STRING&);	// 2025. 4. 14
+
+	static size_t gid;		// 2025. 4. 10 고유번호 생성
+};
+
+
+==========================================
+저장한 시간: 2025-05-26 오후 6:19:04 월요일
+==========================================
+
+//-------------------------------------------------------------------------------------------------
+// STRING.cpp - STL의 동작을 이해하기 위한 class / std::string과 유사하게 작성
+//
+// 2025. 4. 10 - 시작
+// 2025. 4. 10 - 복사생성/복사할당연산자, 스페셜 함수의 동작 관찰
+// 2025. 4. 14 - 선택적 관찰하도록 전역변수를 사용, 이동의미론(move semantics) 구현
+// 2025. 5. 1 - operator==
+// 2025. 5. 15 - std::string과 같이 사전식 정렬하도록 수정
+// 2025. 5. 15 - begin(), end()
+// 2025. 5. 19 - rbegin(), rend()
+//-------------------------------------------------------------------------------------------------
+#include <memory>
+#include <print>
+#include <algorithm>
+#include "STRING.h"
+
+size_t STRING::gid{ 0 };		// 2025. 4. 10 고유번호 생성
+bool 관찰{ false };
+
+STRING::STRING()
+	: id{ ++gid }
+{
+	if (관찰)
+	{
+		std::println("[{:6}] {:<16} 자원수:{:4}, 주소:{:16} 자원의주소:{:16}",
+			id, "디폴트생성", num, (void*)this, (void*)p.get());
+	}
+}
+
+STRING::~STRING()
+{
+	if (관찰)
+	{
+		std::println("[{:6}] {:<16} 자원수:{:4}, 주소:{:16} 자원의주소:{:16}",
+			id, "소멸자", num, (void*)this, (void*)p.get());
+	}
+}
+
+STRING::STRING(const char* str) 
+	: num{ strlen(str) }, id{ ++gid }
+{
+	p.release();
+	p = std::make_unique<char[]>(num);
+	memcpy(p.get(), str, num);
+
+	if (관찰)
+	{
+		std::println("[{:6}] {:<16} 자원수:{:4}, 주소:{:16} 자원의주소:{:16}",
+			id, "생성자(char*)", num, (void*)this, (void*)p.get());
+	}
+};
+
+// 복사생성자와 복사할당연산자 2025. 4. 10
+STRING::STRING(const STRING& other)	// 복사 생성은 할당을 이용해서 코딩하라
+	:num{ other.num }, id{ ++gid }
+{
+	p = std::make_unique<char[]>(num);
+	memcpy(p.get(), other.p.get(), num);
+
+	if (관찰)
+	{
+		std::println("[{:6}] {:<16} 자원수:{:4}, 주소:{:16} 자원의주소:{:16}",
+			id, "복사생성자", num, (void*)this, (void*)p.get());
+	}
+}
+
+STRING& STRING::operator=(const STRING& other)
+{
+	if (this == &other) return *this; // [int* p = &a] => address of /// [int& r = a] => reference
+
+	num = other.num;
+
+	p.release();
+	p = std::make_unique<char[]>(num);
+	memcpy(p.get(), other.p.get(), num);
+
+	if (관찰)
+	{
+		std::println("[{:6}] {:<16} 자원수:{:4}, 주소:{:16} 자원의주소:{:16}",
+			id, "copy operator=", num, (void*)this, (void*)p.get());
+	}
+
+	return *this;
+}
+
+STRING::STRING(STRING&& other)
+	: num{ other.num }, id{ ++gid }
+{
+	p.reset(other.p.release());
+
+	//other.num = 0;
+
+	if (관찰)
+	{
+		std::println("[{:6}] {:<16} 자원수:{:4}, 주소:{:16} 자원의주소:{:16}",
+			id, "이동생성자", num, (void*)this, (void*)p.get());
+	}
+}
+
+STRING& STRING::operator=(STRING&& other)
+{
+	if (this == &other)
+		return *this;
+
+	num = other.num;
+	p.release();
+	p.reset(other.p.release());
+
+	//other.num = 0;
+
+	if (관찰)
+	{
+		std::println("[{:6}] {:<16} 자원수:{:4}, 주소:{:16} 자원의주소:{:16}",
+			id, "move operator=", num, (void*)this, (void*)p.get());
+	}
+
+	return *this;
+}
+
+// 기본정렬을 위한 < 2025. 4. 14
+// 사전식정렬하도록 수정 - 2025. 5. 15
+bool STRING::operator<(const STRING& rhs) const
+{
+	return std::lexicographical_compare(p.get(), p.get() + num, &rhs.p[0], &rhs.p[rhs.num]);
+}
+
+// 같은 객체인지 비교 == - 2025. 5. 1 
+bool STRING::operator==(const STRING& rhs) const
+{
+	return std::equal(p.get(), p.get() + num, &rhs.p[0], &rhs.p[rhs.num]);
+}
+
+size_t STRING::size() const 
+{
+	return num;
+};
+
+// 2025. 5. 15
+STRING_Iterator STRING::begin() const
+{
+	return STRING_Iterator(&p[0]); // p.get();
+}
+
+STRING_Iterator STRING::end() const
+{
+	return STRING_Iterator(&p[num]); // p.get() + num;
+}
+
+
+// 2025. 5. 19
+STRING_Reverse_Iterator STRING::rbegin() const
+{
+	
+	return STRING_Reverse_Iterator(&p[num]);
+}
+
+STRING_Reverse_Iterator STRING::rend() const
+{
+	return STRING_Reverse_Iterator(&p[0]);
+}
+
+std::ostream& operator<<(std::ostream& os, const STRING& s)
+{
+	for (int i = 0; i < s.num; ++i) {
+		os << s.p[i];
+	}
+	return os;
+}
+
+std::istream& operator>>(std::istream& is, STRING& s)	// 2025. 4. 14
+{
+	std::string str;
+	is >> str;
+
+	s.num = str.size();
+	s.p.release();
+	s.p = std::make_unique<char[]>(s.num);
+	memcpy(s.p.get(), str.data(), s.num);
+
+	return is;
+}
+
+==========================================
+저장한 시간: 2025-05-26 오후 6:19:04 월요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 5월 26일 월요일				(12주 1일)
+// 6/19 목요일 15주 2일 - 기말시험
+//-----------------------------------------------------------
+// 반복자 - 각 컨테이너가 자기가 관리하는 원소를 처음부터 끝까지 빠짐없이
+// 순회할 수 있도록 제공하는 인터페이스이다.
+// 컨테이너에 따라서(자료구조가 서로 다르니까) 반복자로 할 수 있는 일은 서로 다르다.
+//-----------------------------------------------------------
+
+#include <iostream>
+#include <string>
+#include <algorithm>
+#include "save.h"
+#include "STRING.h"
+
+using namespace std;
+
+template <class 반복자>
+void f(const 반복자& p)
+{
+	cout << typeid(반복자::iterator_category).name() << endl;
+}
+
+int main(){	
+	STRING s{ "the quick brown fox jumps over the lazy dog" };
+
+	// 알고리즘 sort는 랜덤반복자를 전달받는다.
+	// 따라서 s.begin()과 s.end()는 랜덤반복자가 지원해야만 하는 모든 연산을 제공하여야 한다. - 이렇게 하는 것이 원칙이다.
+	// 이 수업에서는 sort가 필요로하는 연산자만 만든다.
+
+	sort(s.begin(), s.end());
+
+	cout << s << endl;	
+
+	save("STRING.h");
+	save("STRING.cpp");
+	save("메인.cpp");
+}
+
+==========================================
+저장한 시간: 2025-05-26 오후 6:28:23 월요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 5월 26일 월요일				(12주 1일)
+// 6/19 목요일 15주 2일 - 기말시험
+//-----------------------------------------------------------
+// 반복자와 알고리즘 함수
+// find()
+// find_if()
+// copy()
+//-----------------------------------------------------------
+
+#include <iostream>
+#include <algorithm>
+#include "save.h"
+#include "STRING.h"
+
+using namespace std;
+
+int main(){	
+	STRING s{ "2025. 5. 26" };
+
+	// [문제] 한 글자를 입력받아 s에 있는지 없는지, 있다면 몇번째 글자인지 출력하라.
+
+	cout << "찾을 문자를 입력하 :";
+	char inputchar;
+	cin >> inputchar;
+
+	auto location = find(s.begin(), s.end(), inputchar);
+	if (location != s.end())
+	{
+		/*
+		// 만일 random_access_iterator_tag라면 위치는 
+		cout << location - s.begin() + 1 << "번째에 문자입니다." << endl;
+		// 아니라면 개수를 세 나아가야 한다.
+		*/
+		// 위와 같은 일을 하는 것이 distance 함수이다.
+		cout << distance(s.begin(), location) + 1 << "번째 문자입니다." << endl;
+	}
+	else
+	{
+		cout << "없음" << endl;
+	}
+
+	save("메인.cpp");
+}
+
+==========================================
+저장한 시간: 2025-05-26 오후 6:47:26 월요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 5월 26일 월요일				(12주 1일)
+// 6/19 목요일 15주 2일 - 기말시험
+//-----------------------------------------------------------
+// 반복자와 알고리즘 함수
+// find()
+// find_if()
+// copy()
+//-----------------------------------------------------------
+
+#include <iostream>
+#include <algorithm>
+#include "save.h"
+#include "STRING.h"
+
+using namespace std;
+
+template <class 반복자, class 찾을값>
+반복자 my_find(반복자 begin, 반복자 end, 찾을값 val)
+{
+	while (begin != end)
+	{
+		if (*begin == val)
+			return begin;
+		++begin;
+	}
+
+	return begin;
+}
+
+int main(){	
+	STRING s{ "2025. 5. 26" };
+
+	// [문제] 한 글자를 입력받아 s에 있는지 없는지, 있다면 몇번째 글자인지 출력하라.
+
+	cout << "찾을 문자를 입력하 :";
+	char inputchar;
+	cin >> inputchar;
+	
+	auto location = my_find(s.begin(), s.end(), inputchar);
+	if (location != s.end())
+	{
+		/*
+		// 만일 random_access_iterator_tag라면 위치는 
+		cout << location - s.begin() + 1 << "번째에 문자입니다." << endl;
+		// 아니라면 개수를 세 나아가야 한다.
+		*/
+		// 위와 같은 일을 하는 것이 distance 함수이다.
+		cout << distance(s.begin(), location) + 1 << "번째 문자입니다." << endl;
+	}
+	else
+	{
+		cout << "없음" << endl;
+	}
+
+	save("메인.cpp");
+}
+
+==========================================
+저장한 시간: 2025-05-26 오후 6:59:16 월요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 5월 26일 월요일				(12주 1일)
+// 6/19 목요일 15주 2일 - 기말시험
+//-----------------------------------------------------------
+// 반복자와 알고리즘 함수
+// find()
+// find_if()
+// copy()
+//-----------------------------------------------------------
+
+#include <iostream>
+#include <algorithm>
+#include "save.h"
+#include "STRING.h"
+
+using namespace std;
+
+template <class 반복자, class 찾을값>
+반복자 my_find(반복자 begin, 반복자 end, 찾을값 val)
+{
+	while (begin != end)
+	{
+		if (*begin == val)
+			return begin;
+		++begin;
+	}
+
+	return begin;
+}
+
+template <class 반복자, class 호출가능타입>
+반복자 my_find_if(반복자 begin, 반복자 end, 호출가능타입 callable)
+{
+	while (begin != end)
+	{
+		if (callable(*begin) == true)
+			return begin;
+		++begin;
+	}
+
+	return begin;
+}
+
+int main(){	
+	STRING s{ "2025. 5. 26" };
+
+	// [문제] 
+
+	auto p = my_find_if(s.begin(), s.end(), [](char c)
+		{
+			return '3' < c;
+		});
+
+	if (p != s.end())
+	{
+		cout << "3보다 큰 " << *p << "를 찾았다." << endl;
+	}
+	else
+	{
+		cout << "3보다 큰 수는 없다." << endl;
+	}
+
+	save("메인.cpp");
+}
+
+==========================================
+저장한 시간: 2025-05-26 오후 7:01:52 월요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 5월 26일 월요일				(12주 1일)
+// 6/19 목요일 15주 2일 - 기말시험
+//-----------------------------------------------------------
+// 반복자와 알고리즘 함수
+// find()
+// find_if()
+// copy()
+//-----------------------------------------------------------
+
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include "save.h"
+#include "STRING.h"
+
+using namespace std;
+
+template <class 반복자, class 찾을값>
+반복자 my_find(반복자 begin, 반복자 end, 찾을값 val)
+{
+	while (begin != end)
+	{
+		if (*begin == val)
+			return begin;
+		++begin;
+	}
+
+	return begin;
+}
+
+template <class 반복자, class 호출가능타입>
+반복자 my_find_if(반복자 begin, 반복자 end, 호출가능타입 callable)
+{
+	while (begin != end)
+	{
+		if (callable(*begin) == true)
+			return begin;
+		++begin;
+	}
+
+	return begin;
+}
+
+int main(){	
+	STRING s{ "2025. 5. 26" };
+
+	// [문제] s가 관리하는 문자들을 화면에 출력하라(복사하라).
+
+	copy(s.begin(), s.end(), ostream_iterator<char>{cout});
+
+	save("메인.cpp");
+}
+
+==========================================
+저장한 시간: 2025-05-29 오후 5:29:07 목요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 5월 29일 목요일				(12주 2일)
+// 6/19 목요일 15주 2일 - 기말시험
+//-----------------------------------------------------------
+// 반복자와 알고리즘 함수
+// find()
+// find_if()
+// copy()
+//-----------------------------------------------------------
+
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include "save.h"
+#include "STRING.h"
+
+using namespace std;
+
+template <class 반복자, class 찾을값>
+반복자 my_find(반복자 begin, 반복자 end, 찾을값 val)
+{
+	while (begin != end)
+	{
+		if (*begin == val)
+			return begin;
+		++begin;
+	}
+
+	return begin;
+}
+
+template <class 반복자, class 호출가능타입>
+반복자 my_find_if(반복자 begin, 반복자 end, 호출가능타입 callable)
+{
+	while (begin != end)
+	{
+		if (callable(*begin) == true)
+			return begin;
+		++begin;
+	}
+
+	return begin;
+}
+
+int main(){	
+	STRING s{ "2025. 5. 26" };
+	vector<char> v( s.size() );
+
+	// [문제] s가 관리하는 문자들을 화면에 출력하라(복사하라).
+
+	copy(s.begin(), s.end(), v.begin()); // 즉사하는 이유 => v가 저장 가능한 양보다 많음
+
+	for (const char& a : v)
+	{
+		cout << a;
+	}
+
+	save("메인.cpp");
+}
+
+==========================================
+저장한 시간: 2025-05-29 오후 5:40:04 목요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 5월 29일 목요일				(12주 2일)
+// 6/19 목요일 15주 2일 - 기말시험
+//-----------------------------------------------------------
+// 반복자와 알고리즘 함수
+// find()
+// find_if()
+// copy()
+//-----------------------------------------------------------
+
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include "save.h"
+#include "STRING.h"
+
+using namespace std;
+
+template <class 반복자, class 찾을값>
+반복자 my_find(반복자 begin, 반복자 end, 찾을값 val)
+{
+	while (begin != end)
+	{
+		if (*begin == val)
+			return begin;
+		++begin;
+	}
+
+	return begin;
+}
+
+template <class 반복자, class 호출가능타입>
+반복자 my_find_if(반복자 begin, 반복자 end, 호출가능타입 callable)
+{
+	while (begin != end)
+	{
+		if (callable(*begin) == true)
+			return begin;
+		++begin;
+	}
+
+	return begin;
+}
+
+template <class 반복자>
+void my_copy(반복자 begin, 반복자 end, 반복자 dest)
+{
+
+}
+
+int main(){	
+	STRING s{ "2025. 5. 29" };
+	vector<char> v;
+
+	v.reserve(s.size());
+	v.resize(s.size());
+
+	// [문제] s가 관리하는 문자들을 화면에 출력하라(복사하라).
+
+	copy(s.begin(), s.end(), v.begin()); // 즉사하는 이유 => v가 저장 가능한 양보다 많음
+
+	cout << "capacity :" << v.capacity() << endl;
+	cout << "size :" << v.size() << endl;
+	
+
+	for (const char& a : v)
+	{
+		cout << a << "-";
+	}
+	cout << endl;
+
+	save("메인.cpp");
+}
+
+==========================================
+저장한 시간: 2025-05-29 오후 5:47:36 목요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 5월 29일 목요일				(12주 2일)
+// 6/19 목요일 15주 2일 - 기말시험
+//-----------------------------------------------------------
+// 반복자와 알고리즘 함수
+// find()
+// find_if()
+// copy()
+//-----------------------------------------------------------
+
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include "save.h"
+#include "STRING.h"
+
+using namespace std;
+
+template <class 반복자, class 찾을값>
+반복자 my_find(반복자 begin, 반복자 end, 찾을값 val)
+{
+	while (begin != end)
+	{
+		if (*begin == val)
+			return begin;
+		++begin;
+	}
+
+	return begin;
+}
+
+template <class 반복자, class 호출가능타입>
+반복자 my_find_if(반복자 begin, 반복자 end, 호출가능타입 callable)
+{
+	while (begin != end)
+	{
+		if (callable(*begin) == true)
+			return begin;
+		++begin;
+	}
+
+	return begin;
+}
+
+template <class 원본,class 복사본>
+void my_copy(원본 begin, 원본 end, 복사본 dest)
+{
+	while (begin not_eq end)
+	{
+		*dest = *begin;
+		++dest;
+		++begin;
+	}
+}
+
+int main(){	
+	STRING s{ "2025. 5. 29" };
+
+	// [문제] s가 관리하는 문자들을 화면에 출력하라(복사하라).
+
+	my_copy(s.begin(), s.end(), ostream_iterator<char>{cout});
+	cout << endl;
+
+	save("메인.cpp");
+}
+
+==========================================
+저장한 시간: 2025-05-29 오후 6:07:54 목요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 5월 29일 목요일				(12주 2일)
+// 6/19 목요일 15주 2일 - 기말시험
+//-----------------------------------------------------------
+// 반복자와 알고리즘 함수
+// find()
+// find_if()
+// copy()
+//-----------------------------------------------------------
+
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include "save.h"
+#include "STRING.h"
+
+using namespace std;
+
+template <class 반복자, class 찾을값>
+반복자 my_find(반복자 begin, 반복자 end, 찾을값 val)
+{
+	while (begin != end)
+	{
+		if (*begin == val)
+			return begin;
+		++begin;
+	}
+
+	return begin;
+}
+
+template <class 반복자, class 호출가능타입>
+반복자 my_find_if(반복자 begin, 반복자 end, 호출가능타입 callable)
+{
+	while (begin != end)
+	{
+		if (callable(*begin) == true)
+			return begin;
+		++begin;
+	}
+
+	return begin;
+}
+
+template <class 원본,class 복사본>
+void my_copy(원본 begin, 원본 end, 복사본 dest)
+{
+	while (begin not_eq end)
+	{
+		*dest = *begin; // v.push_back(*b)
+		++dest;			// 아무것도 안한다.
+		++begin;
+	}
+}
+
+int main(){	
+	STRING s{ "2025. 5. 29" };
+
+	vector<char> v;
+	v.reserve(s.size());
+
+	// [문제] s가 관리하는 문자를 vector에 복사).
+
+	my_copy(s.begin(), s.end(), back_inserter(v));
+
+	for (const char& c : v)
+	{
+		cout << c;
+	}
+	//for (int i = 0; i < s.size(); ++i)
+	//{
+	//	cout << v[i];
+	//}
+	cout << endl;
+
+	save("메인.cpp");
+}
+
+==========================================
+저장한 시간: 2025-05-29 오후 6:17:16 목요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 5월 29일 목요일				(12주 2일)
+// 6/19 목요일 15주 2일 - 기말시험
+//-----------------------------------------------------------
+// STL
+// 1. 컨테이너 -> sequence / Associative / Unordered Associative
+// 2. Iterator
+// 3. 알고리즘 -> Non-Modifying / Modifying / Sorting & Related
+//-----------------------------------------------------------
+
+#include <iostream>
+#include "save.h"
+#include "STRING.h"
+
+using namespace std;
+
+int main(){	
+
+	save("메인.cpp");
+}
+
+==========================================
+저장한 시간: 2025-05-29 오후 6:45:53 목요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 5월 29일 목요일				(12주 2일)
+// 6/19 목요일 15주 2일 - 기말시험
+//-----------------------------------------------------------
+// Associative Container
+// - set<key>			: key와 value를 구분하지 않는다.
+// - Map<key, value>	: <아이돌그룹, 멤버>
+//-----------------------------------------------------------
+
+#include <iostream>
+#include <set>
+#include "save.h"
+#include "STRING.h"
+
+using namespace std;
+
+// set<key, less<key>>;
+// key를 less<key>를 사용하여 항상 정렬 상태로 유지
+//
+// 이때 ->	equivalence(동등성) a와b는 동등하다: !(a<b) && !(b<a)
+//			
+//			equality(상등성) a와 b는 상등하다: a==b
+
+int main(){	
+	save("메인.cpp");
+}
+
+==========================================
+저장한 시간: 2025-05-29 오후 7:06:43 목요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 5월 29일 목요일				(12주 2일)
+// 6/19 목요일 15주 2일 - 기말시험
+//-----------------------------------------------------------
+// Associative Container
+// - set<key>			: key와 value를 구분하지 않는다.
+// - Map<key, value>	: <아이돌그룹, 멤버>
+//-----------------------------------------------------------
+
+#include <iostream>
+#include <fstream>
+#include <vector>
+#include <set>
+#include "save.h"
+#include "STRING.h"
+
+using namespace std;
+
+extern bool 관찰;
+
+// [문제] "이상한 나라의 앨리스.txt"를 다운받는다.
+// [1] vector<STRING> v; 에 저장하라.
+// [2] 모두 몇 단어로 만들었는지 출력하라.
+
+int main(){	
+	ifstream Alice{ "이상한 나라의 앨리스.txt" };
+	if (not Alice)
+	{
+		cout << "파일이 없다." << endl;
+		return 18651126;
+	}
+
+	//vector<STRING> v;
+	//v.reserve(30000);
+	// 값을 바꿔 꼭 비교해 보세요. =(개인)> reserve가 단어수 이상이 되면 불필요한 STRING생성이 없다.
+
+	set<STRING> v{ istream_iterator<STRING>{Alice},{} }; // vector에서는 STRING의 생성이 엄청나다. but Associative 컨테이너에서는 부담이 없다.
+
+	//STRING in;
+	//while (Alice >> in)
+	//{
+	//	v.push_back(in);
+	//}
+
+	cout << "단어의 개수 :" << v.size() << endl;
+
+	save("메인.cpp");
+	관찰 = true;
+}

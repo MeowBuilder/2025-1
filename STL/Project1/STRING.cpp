@@ -5,9 +5,13 @@
 // 2025. 4. 10 - 복사생성/복사할당연산자, 스페셜 함수의 동작 관찰
 // 2025. 4. 14 - 선택적 관찰하도록 전역변수를 사용, 이동의미론(move semantics) 구현
 // 2025. 5. 1 - operator==
+// 2025. 5. 15 - std::string과 같이 사전식 정렬하도록 수정
+// 2025. 5. 15 - begin(), end()
+// 2025. 5. 19 - rbegin(), rend()
 //-------------------------------------------------------------------------------------------------
 #include <memory>
 #include <print>
+#include <algorithm>
 #include "STRING.h"
 
 size_t STRING::gid{ 0 };		// 2025. 4. 10 고유번호 생성
@@ -114,9 +118,10 @@ STRING& STRING::operator=(STRING&& other)
 }
 
 // 기본정렬을 위한 < 2025. 4. 14
+// 사전식정렬하도록 수정 - 2025. 5. 15
 bool STRING::operator<(const STRING& rhs) const
 {
-	return size() < rhs.size();
+	return std::lexicographical_compare(p.get(), p.get() + num, &rhs.p[0], &rhs.p[rhs.num]);
 }
 
 // 같은 객체인지 비교 == - 2025. 5. 1 
@@ -129,6 +134,30 @@ size_t STRING::size() const
 {
 	return num;
 };
+
+// 2025. 5. 15
+STRING_Iterator STRING::begin() const
+{
+	return STRING_Iterator(&p[0]); // p.get();
+}
+
+STRING_Iterator STRING::end() const
+{
+	return STRING_Iterator(&p[num]); // p.get() + num;
+}
+
+
+// 2025. 5. 19
+STRING_Reverse_Iterator STRING::rbegin() const
+{
+	
+	return STRING_Reverse_Iterator(&p[num]);
+}
+
+STRING_Reverse_Iterator STRING::rend() const
+{
+	return STRING_Reverse_Iterator(&p[0]);
+}
 
 std::ostream& operator<<(std::ostream& os, const STRING& s)
 {
