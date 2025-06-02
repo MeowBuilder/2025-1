@@ -1,5 +1,5 @@
 //-----------------------------------------------------------
-// 2025.1 학기		 STL 5월 29일 목요일				(12주 2일)
+// 2025.1 학기		 STL 6월 2일 월요일				(13주 1일)
 // 6/19 목요일 15주 2일 - 기말시험
 //-----------------------------------------------------------
 // Associative Container
@@ -9,8 +9,9 @@
 
 #include <iostream>
 #include <fstream>
-#include <vector>
+#include <algorithm>
 #include <set>
+#include <array>
 #include "save.h"
 #include "STRING.h"
 
@@ -18,11 +19,8 @@ using namespace std;
 
 extern bool 관찰;
 
-// [문제] "이상한 나라의 앨리스.txt"를 다운받는다.
-// [1] vector<STRING> v; 에 저장하라.
-// [2] 모두 몇 단어로 만들었는지 출력하라.
+int main(){
 
-int main(){	
 	ifstream Alice{ "이상한 나라의 앨리스.txt" };
 	if (not Alice)
 	{
@@ -30,20 +28,36 @@ int main(){
 		return 18651126;
 	}
 
-	//vector<STRING> v;
-	//v.reserve(30000);
-	// 값을 바꿔 꼭 비교해 보세요. =(개인)> reserve가 단어수 이상이 되면 불필요한 STRING생성이 없다.
+	multiset<STRING> s{ istream_iterator<STRING>{Alice},{} };
+	cout << "ㄷㅏㄴㅇㅓㅇㅡㅣ ㄱㅐㅅㅜ :" << s.size() << endl;
 
-	set<STRING> v{ istream_iterator<STRING>{Alice},{} }; // vector에서는 STRING의 생성이 엄청나다. but Associative 컨테이너에서는 부담이 없다.
+	// [문제] multiset<STRING> s에 저장된 모든 알파벳의 사용횟수를 다음과 같이
+	// 사용된 횟수기준 내림차순으로 출력하라
+	// 대문자는 소문자로 바꾸자
+	// e - 13618
+	// t - 10726
+	// ...
+	// z - 78
 
-	//STRING in;
-	//while (Alice >> in)
-	//{
-	//	v.push_back(in);
-	//}
+	array<int, 26> a{};
 
-	cout << "단어의 개수 :" << v.size() << endl;
+	for (const STRING& word : s)
+	{
+		for (char ch : word)
+		{
+			if (isalpha(ch))
+			{
+				ch = tolower(ch);
+				a[ch - 'a']++;
+			}
+		}
+	}
+
+
+	for (size_t i = 0; i < a.size(); ++i)
+	{
+		cout << static_cast<char>('a' + i) << " - " << a[i] << endl;
+	}
 
 	//save("메인.cpp");
-	//관찰 = true;
 }

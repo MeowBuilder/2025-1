@@ -4754,3 +4754,252 @@ int main(){
 	save("메인.cpp");
 	관찰 = true;
 }
+
+==========================================
+저장한 시간: 2025-06-02 오후 5:48:31 월요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 6월 2일 월요일				(13주 1일)
+// 6/19 목요일 15주 2일 - 기말시험
+//-----------------------------------------------------------
+// Associative Container
+// - set<key>			: key와 value를 구분하지 않는다.
+// - Map<key, value>	: <아이돌그룹, 멤버>
+//-----------------------------------------------------------
+
+#include <iostream>
+#include <fstream>
+#include <set>
+#include "save.h"
+#include "STRING.h"
+
+using namespace std;
+
+extern bool 관찰;
+
+
+// [문제] "이상한 나라의 앨리스.txt"를 다운받는다.
+// [1] set<STRING> s; 에 저장하라.
+// [2] 모두 몇 단어로 만들었는지 출력하라.
+
+template <>
+struct less<STRING>
+{
+	bool operator()(const STRING& lhs, const STRING& rhs) const
+	{
+		return lhs.size() < rhs.size();
+	}
+};
+
+int main(){	
+	ifstream Alice{ "이상한 나라의 앨리스.txt" };
+	if (not Alice)
+	{
+		cout << "파일이 없다." << endl;
+		return 18651126;
+	}
+
+	// 기본 operator< 가 정의되어 있는 객체라면 원소로 관리가능하다. 
+	set<STRING> s{ istream_iterator<STRING>{Alice},{} };
+
+	// 이때 사용자 정의 자료형 STRING을 저장하는 set은
+	// 1. less<STRING>을 찾는다.
+	// 2. operator<를 찾는다.
+
+	cout << "단어의 개수 :" << s.size() << endl;
+
+	for (const STRING& words : s)
+	{
+		cout << words << endl;
+	}
+
+	save("메인.cpp");
+}
+
+==========================================
+저장한 시간: 2025-06-02 오후 6:44:15 월요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 6월 2일 월요일				(13주 1일)
+// 6/19 목요일 15주 2일 - 기말시험
+//-----------------------------------------------------------
+// Associative Container
+// - set<key>			: key와 value를 구분하지 않는다.
+// - Map<key, value>	: <아이돌그룹, 멤버>
+//-----------------------------------------------------------
+
+#include <iostream>
+#include <fstream>
+#include <algorithm>
+#include <set>
+#include "save.h"
+#include "STRING.h"
+
+using namespace std;
+
+extern bool 관찰;
+
+
+// [문제] "이상한 나라의 앨리스.txt"를 다운받는다.
+// [1] set<STRING> s; 에 저장하라.
+// [2] 모두 몇 단어로 만들었는지 출력하라.
+
+//template <>
+//struct less<STRING>
+//{
+//	bool operator()(const STRING& lhs, const STRING& rhs) const
+//	{
+//		return lhs.size() < rhs.size();
+//	}
+//};
+
+int main(){
+	save("메인.cpp");
+
+	ifstream Alice{ "이상한 나라의 앨리스.txt" };
+	if (not Alice)
+	{
+		cout << "파일이 없다." << endl;
+		return 18651126;
+	}
+
+	// 기본 operator< 가 정의되어 있는 객체라면 원소로 관리가능하다. 
+	multiset<STRING> s{ istream_iterator<STRING>{Alice},{} };
+
+	// 이때 사용자 정의 자료형 STRING을 저장하는 set은
+	// 1. less<STRING>을 찾는다.
+	// 2. operator<를 찾는다.
+
+	cout << "ㄷㅏㄴㅇㅓㅇㅡㅣ ㄱㅐㅅㅜ :" << s.size() << endl;
+
+	// [문제] 단어를 입력받아서 소설에 있는 단어인지 알려주자.
+
+	for (const STRING& word : s)
+	{
+		cout << word << " ";
+	}
+
+	cout << endl;
+
+	while (true)
+	{
+		cout << "ㅇㅣㅂㄹㅕㄱ ㄷㅏㄴㅇㅓ : ";
+		STRING input;
+		cin >> input;
+
+		cout << "ㅇㅣㅂㄹㅕㄱㅎㅏㄴ ㄷㅏㄴㅇㅓㅇㅡㅣ ㄱㅐㅅㅜㄴㅡㄴ" << s.count(input) << endl;
+		// 이건 다음 코드를 포장한 것이다.
+
+		pair<multiset<STRING>::const_iterator,
+			multiset<STRING>::const_iterator> finded_range = s.equal_range(input);
+		cout << distance(finded_range.first, finded_range.second) << endl;
+
+		//auto finded = s.find(input);
+
+		//if (finded != s.end())
+		//{
+		//	cout << "ㅇㅜㅣㅊㅣㄴㅡㄴ " << distance(s.begin(), finded) + 1 << endl;
+		//}
+		//else
+		//{
+		//	cout << "ㅇㅓㅂㅅㄴㅡㄴ ㄷㅏㄴㅇㅓ" << endl;
+		//}
+		
+	}
+
+}
+
+==========================================
+저장한 시간: 2025-06-02 오후 6:45:54 월요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 6월 2일 월요일				(13주 1일)
+// 6/19 목요일 15주 2일 - 기말시험
+//-----------------------------------------------------------
+// Associative Container
+// - set<key>			: key와 value를 구분하지 않는다.
+// - Map<key, value>	: <아이돌그룹, 멤버>
+//-----------------------------------------------------------
+
+#include <iostream>
+#include <fstream>
+#include <algorithm>
+#include <set>
+#include "save.h"
+#include "STRING.h"
+
+using namespace std;
+
+extern bool 관찰;
+
+
+// [문제] "이상한 나라의 앨리스.txt"를 다운받는다.
+// [1] set<STRING> s; 에 저장하라.
+// [2] 모두 몇 단어로 만들었는지 출력하라.
+
+//template <>
+//struct less<STRING>
+//{
+//	bool operator()(const STRING& lhs, const STRING& rhs) const
+//	{
+//		return lhs.size() < rhs.size();
+//	}
+//};
+
+int main(){
+	save("메인.cpp");
+
+	ifstream Alice{ "이상한 나라의 앨리스.txt" };
+	if (not Alice)
+	{
+		cout << "파일이 없다." << endl;
+		return 18651126;
+	}
+
+	// 기본 operator< 가 정의되어 있는 객체라면 원소로 관리가능하다. 
+	multiset<STRING> s{ istream_iterator<STRING>{Alice},{} };
+
+	// 이때 사용자 정의 자료형 STRING을 저장하는 set은
+	// 1. less<STRING>을 찾는다.
+	// 2. operator<를 찾는다.
+
+	cout << "ㄷㅏㄴㅇㅓㅇㅡㅣ ㄱㅐㅅㅜ :" << s.size() << endl;
+
+	// [문제] 단어를 입력받아서 소설에 있는 단어인지 알려주자.
+
+	for (const STRING& word : s)
+	{
+		cout << word << " ";
+	}
+
+	cout << endl;
+
+	while (true)
+	{
+		cout << "ㅇㅣㅂㄹㅕㄱ ㄷㅏㄴㅇㅓ : ";
+		STRING input;
+		cin >> input;
+
+		cout << "ㅇㅣㅂㄹㅕㄱㅎㅏㄴ ㄷㅏㄴㅇㅓㅇㅡㅣ ㄱㅐㅅㅜㄴㅡㄴ" << s.count(input) << endl;
+		// 이건 다음 코드를 포장한 것이다.
+
+		auto[하한,상한] = s.equal_range(input);
+		cout << distance(하한, 상한) << endl;
+
+		//auto finded = s.find(input);
+
+		//if (finded != s.end())
+		//{
+		//	cout << "ㅇㅜㅣㅊㅣㄴㅡㄴ " << distance(s.begin(), finded) + 1 << endl;
+		//}
+		//else
+		//{
+		//	cout << "ㅇㅓㅂㅅㄴㅡㄴ ㄷㅏㄴㅇㅓ" << endl;
+		//}
+		
+	}
+
+}
