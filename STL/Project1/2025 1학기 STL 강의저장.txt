@@ -5003,3 +5003,893 @@ int main(){
 	}
 
 }
+
+==========================================
+저장한 시간: 2025-06-05 오후 5:33:14 목요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 6월 5일 목요일				(13주 2일)
+// 6/19 목요일 15주 2일 - 기말시험
+//-----------------------------------------------------------
+// Associative Container
+// - set<key>			: key와 value를 구분하지 않는다.
+// - Map<key, value>	: <아이돌그룹, 멤버>
+//-----------------------------------------------------------
+
+#include <iostream>
+#include <fstream>
+#include <algorithm>
+#include <set>
+#include <map>
+#include <array>
+#include "save.h"
+#include "STRING.h"
+
+using namespace std;
+
+extern bool 관찰;
+
+int main(){
+
+	ifstream Alice{ "이상한 나라의 앨리스.txt" };
+	if (not Alice)
+	{
+		cout << "파일이 없다." << endl;
+		return 18651126;
+	}
+
+	multiset<STRING> s{ istream_iterator<STRING>{Alice},{} };
+	cout << "ㄷㅏㄴㅇㅓㅇㅡㅣ ㄱㅐㅅㅜ :" << s.size() << endl;
+
+	// [문제] multiset<STRING> 
+	// 모든 알파벳의 사용횟수를 다음과 같이
+	// 알파벳과 사용된 횟수기준 내림차순으로 출력하라
+	// 대문자는 소문자로 바꾸자
+	// e - 13618
+	// t - 10726
+	// ...
+	// z - 78
+
+	map<char, size_t> m;
+
+	for (const STRING& word : s)
+	{
+		for (char& alpha : word)
+		{
+			if (isalpha(alpha))
+			{
+				tolower(alpha);
+				m[alpha]++;
+			}
+		}
+	}
+
+	for (pair<char, size_t> p : m)
+	{
+		cout << p.first << " - " << p.second << endl;
+	}
+
+	save("메인.cpp");
+}
+
+==========================================
+저장한 시간: 2025-06-05 오후 5:33:21 목요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 6월 5일 목요일				(13주 2일)
+// 6/19 목요일 15주 2일 - 기말시험
+//-----------------------------------------------------------
+// Associative Container
+// - set<key>			: key와 value를 구분하지 않는다.
+// - Map<key, value>	: <아이돌그룹, 멤버>
+//-----------------------------------------------------------
+
+#include <iostream>
+#include <fstream>
+#include <algorithm>
+#include <set>
+#include <map>
+#include <array>
+#include "save.h"
+#include "STRING.h"
+
+using namespace std;
+
+extern bool 관찰;
+
+int main(){
+
+	ifstream Alice{ "이상한 나라의 앨리스.txt" };
+	if (not Alice)
+	{
+		cout << "파일이 없다." << endl;
+		return 18651126;
+	}
+
+	multiset<STRING> s{ istream_iterator<STRING>{Alice},{} };
+	cout << "ㄷㅏㄴㅇㅓㅇㅡㅣ ㄱㅐㅅㅜ :" << s.size() << endl;
+
+	// [문제] multiset<STRING> 
+	// 모든 알파벳의 사용횟수를 다음과 같이
+	// 알파벳과 사용된 횟수기준 내림차순으로 출력하라
+	// 대문자는 소문자로 바꾸자
+	// e - 13618
+	// t - 10726
+	// ...
+	// z - 78
+
+	map<char, size_t> m;
+
+	for (const STRING& word : s)
+	{
+		for (char& alpha : word)
+		{
+			if (isalpha(alpha))
+			{
+				m[tolower(alpha)]++;
+			}
+		}
+	}
+
+	for (pair<char, size_t> p : m)
+	{
+		cout << p.first << " - " << p.second << endl;
+	}
+
+	save("메인.cpp");
+}
+
+==========================================
+저장한 시간: 2025-06-05 오후 5:51:18 목요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 6월 5일 목요일				(13주 2일)
+// 6/19 목요일 15주 2일 - 기말시험
+//-----------------------------------------------------------
+// Associative Container
+// - set<key>			: key와 value를 구분하지 않는다.
+// - Map<key, value>	: <아이돌그룹, 멤버>
+//-----------------------------------------------------------
+
+#include <iostream>
+#include <fstream>
+#include <algorithm>
+#include <set>
+#include <map>
+#include <array>
+#include "save.h"
+#include "STRING.h"
+
+using namespace std;
+
+extern bool 관찰;
+
+int main(){
+
+	ifstream Alice{ "이상한 나라의 앨리스.txt" };
+	if (not Alice)
+	{
+		cout << "파일이 없다." << endl;
+		return 18651126;
+	}
+
+	multiset<STRING> s{ istream_iterator<STRING>{Alice},{} };
+
+	// [문제] multiset<STRING> 
+	// 모든 알파벳의 사용횟수를 다음과 같이
+	// 알파벳과 사용된 횟수기준 내림차순으로 출력하라
+	// 대문자는 소문자로 바꾸자
+	// e - 13618
+	// t - 10726
+	// ...
+	// z - 78
+
+	map<char, size_t> m;
+
+	for (const STRING& word : s)
+	{
+		for (char& alpha : word)
+		{
+			if (isalpha(alpha))
+			{
+				m[tolower(alpha)]++;
+			}
+		}
+	}
+
+	// 개수 기준 내림차순으로 출력한다.
+	map<size_t, char, greater<size_t>> w;
+
+	for (auto& [ch,count] : m)
+	{
+		w[count] = ch;
+	}
+
+
+	for (const auto& [count,ch] : w)
+	{
+		cout << ch << " - " << count << endl;
+	}
+
+	save("메인.cpp");
+}
+
+==========================================
+저장한 시간: 2025-06-05 오후 6:12:56 목요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 6월 5일 목요일				(13주 2일)
+// 6/19 목요일 15주 2일 - 기말시험
+//-----------------------------------------------------------
+// Associative Container
+// - set<key>			: key와 value를 구분하지 않는다.
+// - Map<key, value>	: <아이돌그룹, 멤버>
+//-----------------------------------------------------------
+
+#include <iostream>
+#include <fstream>
+#include <map>
+#include "save.h"
+#include "STRING.h"
+
+using namespace std;
+
+extern bool 관찰;
+
+int main(){
+
+	ifstream Alice{ "이상한 나라의 앨리스.txt" };
+	if (not Alice)
+	{
+		cout << "파일이 없다." << endl;
+		return 18651126;
+	}
+
+	// [문제] 소설에 사용된 단어의 출현횟수를 알고 싶다.
+	// 다음과 같은 형식으로 출력해보자.
+	// 
+	// the -1500
+	// a - 1000
+	// ...
+	// zigzag - 1
+
+	map<STRING, size_t> m;
+	STRING word;
+	while (Alice >> word)
+	{
+		m[word]++;
+	}
+
+	// 많이 사용된 단어순으로 출력되도록 하자
+	map<size_t, STRING,greater<size_t>> w;
+	for (const auto& [wor, cou] : m)
+	{
+		w[cou] = wor;
+	}
+
+	for (const auto& [c, w] : w)
+	{
+		cout << w << " - " << c << endl;
+	}
+
+
+	save("메인.cpp");
+}
+
+==========================================
+저장한 시간: 2025-06-05 오후 6:19:29 목요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 6월 5일 목요일				(13주 2일)
+// 6/19 목요일 15주 2일 - 기말시험
+//-----------------------------------------------------------
+// Associative Container
+// - set<key>			: key와 value를 구분하지 않는다.
+// - Map<key, value>	: <아이돌그룹, 멤버>
+//-----------------------------------------------------------
+
+#include <iostream>
+#include <fstream>
+#include <map>
+#include "save.h"
+#include "STRING.h"
+
+using namespace std;
+
+extern bool 관찰;
+
+int main(){
+
+	ifstream Alice{ "이상한 나라의 앨리스.txt" };
+	if (not Alice)
+	{
+		cout << "파일이 없다." << endl;
+		return 18651126;
+	}
+
+	// [문제] 소설에 사용된 단어의 출현횟수를 알고 싶다.
+	// 다음과 같은 형식으로 출력해보자.
+	// 
+	// the -1500
+	// a - 1000
+	// ...
+	// zigzag - 1
+
+	map<STRING, size_t> m;
+	STRING word;
+	while (Alice >> word)
+	{
+		m[word]++;
+	}
+
+	// 많이 사용된 단어순으로 출력되도록 하자
+	multimap<size_t, STRING,greater<size_t>> w;
+	for (const auto& [wor, cou] : m)
+	{
+		//w[cou] = wor; - unique key일때만 허용되는 sugar
+		w.insert(pair<size_t,STRING>{cou,wor});	// 정식
+		w.insert(make_pair(cou, wor)); // 편의함수 사용
+	}
+
+	for (const auto& [c, w] : w)
+	{
+		cout << w << " - " << c << endl;
+	}
+
+
+	save("메인.cpp");
+}
+
+==========================================
+저장한 시간: 2025-06-05 오후 6:42:28 목요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 6월 5일 목요일				(13주 2일)
+// 6/19 목요일 15주 2일 - 기말시험
+//-----------------------------------------------------------
+// Associative Container
+// - set<key>			: key와 value를 구분하지 않는다.
+// - Map<key, value>	: <아이돌그룹, 멤버>
+//-----------------------------------------------------------
+
+#include <iostream>
+#include <map>
+#include <random>
+#include <array>
+#include <print>
+#include "save.h"
+#include "STRING.h"
+
+using namespace std;
+
+extern bool 관찰;
+
+// [문제] uniform 분포는 uniform 한가?
+// [문제] normal 분포는 normal한가?
+
+default_random_engine dre;	// mt19937 엔진
+uniform_int_distribution uid{ 0,99'9999 };
+normal_distribution nd;
+
+
+array<int, 2025'0605> a;
+
+int main(){
+	for (int& num : a)
+	{
+		double d = nd(dre);
+		d *= 50'0000;
+		d += 50'0000;
+
+		if (0 <= d && d < 100'0000)
+		{
+			num = (int)d;
+		}
+
+	}
+	
+	map<int, size_t> 구간_개수;
+
+	for (const int& num : a)
+	{
+		구간_개수[num / 5'0000]++;
+	}
+
+	for (const auto& [구간, 개수] : 구간_개수)
+	{
+		println("[{:>2}] - {}", 구간, 개수);
+	}
+
+	save("메인.cpp");
+}
+
+==========================================
+저장한 시간: 2025-06-05 오후 6:42:47 목요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 6월 5일 목요일				(13주 2일)
+// 6/19 목요일 15주 2일 - 기말시험
+//-----------------------------------------------------------
+// Associative Container
+// - set<key>			: key와 value를 구분하지 않는다.
+// - Map<key, value>	: <아이돌그룹, 멤버>
+//-----------------------------------------------------------
+
+#include <iostream>
+#include <map>
+#include <random>
+#include <array>
+#include <print>
+#include "save.h"
+#include "STRING.h"
+
+using namespace std;
+
+extern bool 관찰;
+
+// [문제] uniform 분포는 uniform 한가?
+// [문제] normal 분포는 normal한가?
+
+default_random_engine dre;	// mt19937 엔진
+uniform_int_distribution uid{ 0,99'9999 };
+normal_distribution nd;
+
+
+array<int, 2025'0605> a;
+
+int main(){
+	for (int& num : a)
+	{
+		double d = nd(dre);
+		d *= 20'0000;
+		d += 50'0000;
+
+		if (0 <= d && d < 100'0000)
+		{
+			num = (int)d;
+		}
+
+	}
+	
+	map<int, size_t> 구간_개수;
+
+	for (const int& num : a)
+	{
+		구간_개수[num / 5'0000]++;
+	}
+
+	for (const auto& [구간, 개수] : 구간_개수)
+	{
+		println("[{:>2}] - {}", 구간, 개수);
+	}
+
+	save("메인.cpp");
+}
+
+==========================================
+저장한 시간: 2025-06-05 오후 6:43:15 목요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 6월 5일 목요일				(13주 2일)
+// 6/19 목요일 15주 2일 - 기말시험
+//-----------------------------------------------------------
+// Associative Container
+// - set<key>			: key와 value를 구분하지 않는다.
+// - Map<key, value>	: <아이돌그룹, 멤버>
+//-----------------------------------------------------------
+
+#include <iostream>
+#include <map>
+#include <random>
+#include <array>
+#include <print>
+#include "save.h"
+#include "STRING.h"
+
+using namespace std;
+
+extern bool 관찰;
+
+// [문제] uniform 분포는 uniform 한가?
+// [문제] normal 분포는 normal한가?
+
+default_random_engine dre;	// mt19937 엔진
+uniform_int_distribution uid{ 0,99'9999 };
+normal_distribution nd{0.0, 0.5};
+
+
+array<int, 2025'0605> a;
+
+int main(){
+	for (int& num : a)
+	{
+		double d = nd(dre);
+		d *= 50'0000;
+		d += 50'0000;
+
+		if (0 <= d && d < 100'0000)
+		{
+			num = (int)d;
+		}
+
+	}
+	
+	map<int, size_t> 구간_개수;
+
+	for (const int& num : a)
+	{
+		구간_개수[num / 5'0000]++;
+	}
+
+	for (const auto& [구간, 개수] : 구간_개수)
+	{
+		println("[{:>2}] - {}", 구간, 개수);
+	}
+
+	save("메인.cpp");
+}
+
+==========================================
+저장한 시간: 2025-06-05 오후 6:43:25 목요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 6월 5일 목요일				(13주 2일)
+// 6/19 목요일 15주 2일 - 기말시험
+//-----------------------------------------------------------
+// Associative Container
+// - set<key>			: key와 value를 구분하지 않는다.
+// - Map<key, value>	: <아이돌그룹, 멤버>
+//-----------------------------------------------------------
+
+#include <iostream>
+#include <map>
+#include <random>
+#include <array>
+#include <print>
+#include "save.h"
+#include "STRING.h"
+
+using namespace std;
+
+extern bool 관찰;
+
+// [문제] uniform 분포는 uniform 한가?
+// [문제] normal 분포는 normal한가?
+
+default_random_engine dre;	// mt19937 엔진
+uniform_int_distribution uid{ 0,99'9999 };
+normal_distribution nd{0.0, 0.5};
+
+
+array<int, 2025'0605> a;
+
+int main(){
+	for (int& num : a)
+	{
+		double d = nd(dre);
+		d *= 20'0000;
+		d += 50'0000;
+
+		if (0 <= d && d < 100'0000)
+		{
+			num = (int)d;
+		}
+
+	}
+	
+	map<int, size_t> 구간_개수;
+
+	for (const int& num : a)
+	{
+		구간_개수[num / 5'0000]++;
+	}
+
+	for (const auto& [구간, 개수] : 구간_개수)
+	{
+		println("[{:>2}] - {}", 구간, 개수);
+	}
+
+	save("메인.cpp");
+}
+
+==========================================
+저장한 시간: 2025-06-05 오후 6:43:46 목요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 6월 5일 목요일				(13주 2일)
+// 6/19 목요일 15주 2일 - 기말시험
+//-----------------------------------------------------------
+// Associative Container
+// - set<key>			: key와 value를 구분하지 않는다.
+// - Map<key, value>	: <아이돌그룹, 멤버>
+//-----------------------------------------------------------
+
+#include <iostream>
+#include <map>
+#include <random>
+#include <array>
+#include <print>
+#include "save.h"
+#include "STRING.h"
+
+using namespace std;
+
+extern bool 관찰;
+
+// [문제] uniform 분포는 uniform 한가?
+// [문제] normal 분포는 normal한가?
+
+default_random_engine dre;	// mt19937 엔진
+uniform_int_distribution uid{ 0,99'9999 };
+normal_distribution nd{0.0, 0.01};
+
+
+array<int, 2025'0605> a;
+
+int main(){
+	for (int& num : a)
+	{
+		double d = nd(dre);
+		d *= 20'0000;
+		d += 50'0000;
+
+		if (0 <= d && d < 100'0000)
+		{
+			num = (int)d;
+		}
+
+	}
+	
+	map<int, size_t> 구간_개수;
+
+	for (const int& num : a)
+	{
+		구간_개수[num / 5'0000]++;
+	}
+
+	for (const auto& [구간, 개수] : 구간_개수)
+	{
+		println("[{:>2}] - {}", 구간, 개수);
+	}
+
+	save("메인.cpp");
+}
+
+==========================================
+저장한 시간: 2025-06-05 오후 6:43:57 목요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 6월 5일 목요일				(13주 2일)
+// 6/19 목요일 15주 2일 - 기말시험
+//-----------------------------------------------------------
+// Associative Container
+// - set<key>			: key와 value를 구분하지 않는다.
+// - Map<key, value>	: <아이돌그룹, 멤버>
+//-----------------------------------------------------------
+
+#include <iostream>
+#include <map>
+#include <random>
+#include <array>
+#include <print>
+#include "save.h"
+#include "STRING.h"
+
+using namespace std;
+
+extern bool 관찰;
+
+// [문제] uniform 분포는 uniform 한가?
+// [문제] normal 분포는 normal한가?
+
+default_random_engine dre;	// mt19937 엔진
+uniform_int_distribution uid{ 0,99'9999 };
+normal_distribution nd{0.0, 0.1};
+
+
+array<int, 2025'0605> a;
+
+int main(){
+	for (int& num : a)
+	{
+		double d = nd(dre);
+		d *= 20'0000;
+		d += 50'0000;
+
+		if (0 <= d && d < 100'0000)
+		{
+			num = (int)d;
+		}
+
+	}
+	
+	map<int, size_t> 구간_개수;
+
+	for (const int& num : a)
+	{
+		구간_개수[num / 5'0000]++;
+	}
+
+	for (const auto& [구간, 개수] : 구간_개수)
+	{
+		println("[{:>2}] - {}", 구간, 개수);
+	}
+
+	save("메인.cpp");
+}
+
+==========================================
+저장한 시간: 2025-06-05 오후 6:44:15 목요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 6월 5일 목요일				(13주 2일)
+// 6/19 목요일 15주 2일 - 기말시험
+//-----------------------------------------------------------
+// Associative Container
+// - set<key>			: key와 value를 구분하지 않는다.
+// - Map<key, value>	: <아이돌그룹, 멤버>
+//-----------------------------------------------------------
+
+#include <iostream>
+#include <map>
+#include <random>
+#include <array>
+#include <print>
+#include "save.h"
+#include "STRING.h"
+
+using namespace std;
+
+extern bool 관찰;
+
+// [문제] uniform 분포는 uniform 한가?
+// [문제] normal 분포는 normal한가?
+
+default_random_engine dre;	// mt19937 엔진
+uniform_int_distribution uid{ 0,99'9999 };
+normal_distribution nd{0.0, 0.025};
+
+
+array<int, 2025'0605> a;
+
+int main(){
+	for (int& num : a)
+	{
+		double d = nd(dre);
+		d *= 20'0000;
+		d += 50'0000;
+
+		if (0 <= d && d < 100'0000)
+		{
+			num = (int)d;
+		}
+
+	}
+	
+	map<int, size_t> 구간_개수;
+
+	for (const int& num : a)
+	{
+		구간_개수[num / 5'0000]++;
+	}
+
+	for (const auto& [구간, 개수] : 구간_개수)
+	{
+		println("[{:>2}] - {}", 구간, 개수);
+	}
+
+	save("메인.cpp");
+}
+
+==========================================
+저장한 시간: 2025-06-05 오후 6:44:26 목요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 6월 5일 목요일				(13주 2일)
+// 6/19 목요일 15주 2일 - 기말시험
+//-----------------------------------------------------------
+// Associative Container
+// - set<key>			: key와 value를 구분하지 않는다.
+// - Map<key, value>	: <아이돌그룹, 멤버>
+//-----------------------------------------------------------
+
+#include <iostream>
+#include <map>
+#include <random>
+#include <array>
+#include <print>
+#include "save.h"
+#include "STRING.h"
+
+using namespace std;
+
+extern bool 관찰;
+
+// [문제] uniform 분포는 uniform 한가?
+// [문제] normal 분포는 normal한가?
+
+default_random_engine dre;	// mt19937 엔진
+uniform_int_distribution uid{ 0,99'9999 };
+normal_distribution nd{0.0, 0.25};
+
+
+array<int, 2025'0605> a;
+
+int main(){
+	for (int& num : a)
+	{
+		double d = nd(dre);
+		d *= 20'0000;
+		d += 50'0000;
+
+		if (0 <= d && d < 100'0000)
+		{
+			num = (int)d;
+		}
+
+	}
+	
+	map<int, size_t> 구간_개수;
+
+	for (const int& num : a)
+	{
+		구간_개수[num / 5'0000]++;
+	}
+
+	for (const auto& [구간, 개수] : 구간_개수)
+	{
+		println("[{:>2}] - {}", 구간, 개수);
+	}
+
+	save("메인.cpp");
+}
+
+==========================================
+저장한 시간: 2025-06-05 오후 7:01:35 목요일
+==========================================
+
+//-----------------------------------------------------------
+// 2025.1 학기		 STL 6월 5일 목요일				(13주 2일)
+// 6/19 목요일 15주 2일 - 기말시험
+//-----------------------------------------------------------
+// Unordered Associative Container - hash 기반
+//-----------------------------------------------------------
+
+#include <iostream>
+#include "string"
+#include <unordered_set>
+#include "save.h"
+#include "STRING.h"
+
+using namespace std;
+
+extern bool 관찰;
+
+// trade - off				찾기 성능(time)		공간 성능(memory)
+// Sequence					- O(N)				- N
+// Associative				- O(log N)			- N + pointer
+// Unordered Associative	- O(1)				- N + table + pointer
+
+int main(){
+	unordered_set<string> us{ "1","22","333","4444","55555" };
+
+	for (const string& s : us)
+	{
+		cout << s << endl;
+	}
+
+	save("메인.cpp");
+}
