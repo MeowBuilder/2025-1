@@ -18,7 +18,6 @@
 // Iterator adaptor - 반복자의 인터페이스를 제공하지만 실제는 다르게 동작
 // 표준반복자가 제공해야할 다섯가지 타입을 제공한다.
 
-
 class STRING_Reverse_Iterator {
 public:
 	using difference_type = std::ptrdiff_t;
@@ -155,6 +154,7 @@ public:
 	// 2025. 5. 19
 	STRING_Reverse_Iterator rbegin() const;
 	STRING_Reverse_Iterator rend() const;
+
 
 private:
 	size_t num{};
